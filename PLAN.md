@@ -44,7 +44,7 @@ Este plan no se apoya en intuiciones cuando se podía medir. Todo se hizo en mem
 
 **Sin comprobar, y dónde se comprueba:**
 
-- **Safari e iPhone reales.** CPU ×4 aproxima un móvil medio, pero no sustituye a uno: throttling de CPU, no de GPU, y motor Blink, no WebKit. Es la condición de salida de la Fase 1.
+- **Safari e iPhone reales.** CPU ×4 aproxima un móvil medio, pero no sustituye a uno: throttling de CPU, no de GPU, y motor Blink, no WebKit. Es la condición de salida de la Fase 1. Medido el 2026-11-02 en un iPhone: 59 fps en todos los casos y 1 ms al arrastrar.
 - **Las cifras de §1.4 y §1.5** vienen de los prototipos previos a la Fase 1. La implementación real se mide en `#/bench`: en este portátil, 60 fps en los tres casos y arrastre de la barra en 0,2 ms sobre una traza sintética de 100 000 frames (34,1 MB).
 
 **Confirmado en la Fase 1:** TS 7 compila todo con `tsc -b`, y el bundle inicial son 101 kB comprimidos, muy por debajo de los 250 kB estimados. En F4, con la comparación, son 119 kB, y CI impone un presupuesto de 140 kB.
@@ -1395,10 +1395,13 @@ Cada fase se despliega y se puede usar por sí sola. El tamaño es relativo (S, 
 
 La condición 1 es la más importante del proyecto: si añadir el tercer algoritmo obliga a tocar otra cosa, se arregla ahora, cuando hay tres y no cincuenta.
 
-**Estado (2026-11-02).** Cumplidas en local las condiciones 1, 2, 3 y 5. Pendientes:
+**Estado (2026-11-02).** Cumplidas las seis condiciones. La 1, 2, 3 y 5 en local; las otras dos así:
 
-- **La 4, en el iPhone.** Medida sobre producción, porque F1 llegó a `main` sin PR: 59 fps en todos los casos de `#/bench`, también 300 primitivas, y 34,1 MB la traza sintética de 100 000 pasos. Falta anotar el p99 de arrastre.
-- **La 6, con el primer PR.** Lo que necesita ya está montado: Vercel conectado a GitHub con `main` como rama de producción, y un ruleset en `main` que exige PR, el check `ci` en verde y prohíbe force push y borrado, sin excepciones.
+- **La 4, en el iPhone.** Medida sobre producción, porque F1 llegó a `main` sin PR:
+  - 59 fps en todos los casos de `#/bench`, también 300 primitivas.
+  - Traza sintética de 100 000 pasos: 34,1 MB.
+  - Arrastrar la barra y el salto largo: 1 ms de p99, frente a 33 ms de límite.
+- **La 6, con el PR #1.** Un ruleset en `main` exige PR y el check `ci` en verde, y prohíbe force push y borrado, sin excepciones. Al fusionarlo, Vercel publicó el commit en producción sin intervenir.
 
 La condición 1 cazó un fallo real: la caché `fsModuleCache` de Vitest ocultaba los algoritmos nuevos. Corregido, un archivo nuevo añade 12 tests y no cambia ningún otro archivo, salvo el snapshot generado.
 
@@ -1476,7 +1479,9 @@ La salida se cumple en local:
 
 **En producción** en `https://stepscope.vercel.app` desde 5b97b24, con la CI en verde. Los 138 E2E pasan también contra producción.
 
-**En el iPhone (2026-11-02):** 59 fps en todos los casos de `#/bench`, también dos arrays de 100. Quicksort frente a mergesort se reproduce fluido, y la pasada con VoiceOver salió bien. Solo falta la etiqueta `v1.0.0`.
+**En el iPhone (2026-11-02):** 59 fps en todos los casos de `#/bench`, también dos arrays de 100. Quicksort frente a mergesort se reproduce fluido, y la pasada con VoiceOver salió bien.
+
+**v1 cerrada:** etiqueta `v1.0.0` sobre 0ca53ff, el commit que está en producción.
 
 Cuatro decisiones al construirla:
 
