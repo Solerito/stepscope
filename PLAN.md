@@ -1395,7 +1395,10 @@ Cada fase se despliega y se puede usar por sí sola. El tamaño es relativo (S, 
 
 La condición 1 es la más importante del proyecto: si añadir el tercer algoritmo obliga a tocar otra cosa, se arregla ahora, cuando hay tres y no cincuenta.
 
-**Estado (2026-11-02).** Cumplidas en local las condiciones 1, 2, 3 y 5. Pendientes: 4 y 6, que necesitan el repositorio en GitHub y el proyecto en Vercel (§9).
+**Estado (2026-11-02).** Cumplidas en local las condiciones 1, 2, 3 y 5. Pendientes:
+
+- **La 4, en el iPhone.** Medida sobre producción, porque F1 llegó a `main` sin PR: 59 fps en todos los casos de `#/bench`, también 300 primitivas, y 34,1 MB la traza sintética de 100 000 pasos. Falta anotar el p99 de arrastre.
+- **La 6, con el primer PR.** Lo que necesita ya está montado: Vercel conectado a GitHub con `main` como rama de producción, y un ruleset en `main` que exige PR, el check `ci` en verde y prohíbe force push y borrado, sin excepciones.
 
 La condición 1 cazó un fallo real: la caché `fsModuleCache` de Vitest ocultaba los algoritmos nuevos. Corregido, un archivo nuevo añade 12 tests y no cambia ningún otro archivo, salvo el snapshot generado.
 
@@ -1471,7 +1474,9 @@ La salida se cumple en local:
 - **Rendimiento.** La comparación real con dos arrays de 100 da 60 fps en Chrome sin pantalla, también con la CPU a ×4 y a cualquier velocidad. `#/bench` añade ese caso para medirlo en el iPhone.
 - **Axe y teclado**, en los tres navegadores.
 
-**Pendiente, solo se puede hacer fuera:** medir `#/bench` y la comparación en el iPhone sobre el deploy preview, la pasada con VoiceOver y la etiqueta `v1.0.0` tras fusionar.
+**En producción** en `https://stepscope.vercel.app` desde 5b97b24, con la CI en verde. Los 138 E2E pasan también contra producción.
+
+**En el iPhone (2026-11-02):** 59 fps en todos los casos de `#/bench`, también dos arrays de 100. Quicksort frente a mergesort se reproduce fluido, y la pasada con VoiceOver salió bien. Solo falta la etiqueta `v1.0.0`.
 
 Cuatro decisiones al construirla:
 
@@ -1733,7 +1738,7 @@ git push -u origin main
 git switch -c f1-esqueleto
 ```
 
-**Pasos en la web**, porque no están instalados ni `gh` ni la CLI de Vercel, y son de tu cuenta:
+**Pasos en la web**, hechos el 2026-11-02. El proyecto de Vercel se creó al final con la CLI (`vercel link`) y después se conectó a GitHub desde la web; el ruleset se importó desde un JSON. El despliegue, en `CLAUDE.md`.
 
 1. **GitHub:** crear el repositorio público `Solerito/stepscope`, vacío.
 2. **Vercel:** en `vercel.com/new`, importar el repositorio con el nombre de proyecto `stepscope`. Detecta Vite solo y `main` queda como rama de producción. Da una URL estable por rama, la que se abre en el iPhone.
