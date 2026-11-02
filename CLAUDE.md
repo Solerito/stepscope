@@ -6,6 +6,13 @@ Visualizador de algoritmos por trazas. Plan, decisiones y roadmap en `PLAN.md`. 
 
 No hacer commits, push, ramas, PR ni etiquetas. Dejar los cambios en el árbol de trabajo y avisar cuando haya un buen punto para commitear, con un mensaje propuesto.
 
+## Despliegue: lo hace Claude con la CLI de Vercel
+
+Proyecto `stepscope` del equipo `soleritos-projects`, ya enlazado en `.vercel/`. Producción: `https://stepscope.vercel.app`.
+
+- **Preview**, para probar en el iPhone antes de commitear: `vercel deploy --environment preview --non-interactive` desde el árbol de trabajo. La URL pide iniciar sesión en Vercel.
+- **Producción solo con lo que hay en `origin/main` y la CI en verde.** Nunca `--prod` desde el árbol de trabajo. Con GitHub conectado, fusionar ya despliega; si no, exportar `main` con `git archive` a una carpeta temporal, copiar `.vercel/project.json` y desplegar desde ahí con `--prod`.
+
 ## Comandos
 
 ```powershell
