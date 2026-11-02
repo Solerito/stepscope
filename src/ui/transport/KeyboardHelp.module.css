@@ -1,0 +1,41 @@
+.dialog {
+  width: min(26rem, calc(100vw - 2rem));
+  padding: 1.25rem;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  background: var(--slide);
+  color: var(--ink);
+}
+
+.dialog::backdrop {
+  background: rgb(30 26 56 / 0.5);
+}
+
+.title {
+  margin-bottom: 0.75rem;
+  font-size: var(--text-lg);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 7.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.keys {
+  font-weight: 700;
+}
+
+.close {
+  margin-top: 1rem;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 2px;
+  background: var(--hematoxylin);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}

@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": [],
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.algorithms.tsbuildinfo"
+  },
+  "include": ["src/algorithms/**/*.algo.ts", "docs/**/*.algo.ts"]
+}

@@ -1,0 +1,200 @@
+/* El cuerpo del instrumento: lo único oscuro de la página. */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--body);
+  color: var(--body-text);
+}
+
+.bar :focus-visible {
+  outline-color: var(--reticle);
+}
+
+.buttons {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.button,
+.playButton {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--body-raised);
+}
+
+.button:disabled {
+  color: var(--body-raised);
+  cursor: default;
+}
+
+.playButton {
+  width: 3.25rem;
+  background: var(--body-text);
+  color: var(--body);
+}
+
+.playButton:hover {
+  background: #fff;
+}
+
+.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+}
+
+/* El micrómetro de platina: la escala por la que se desplaza la preparación. */
+.scale {
+  position: relative;
+  flex: 1;
+  min-width: 8rem;
+  height: 2.75rem;
+  background:
+    /* Divisiones finas, siempre iguales: es la regla, no los datos. */
+    repeating-linear-gradient(90deg, var(--body-soft) 0 1px, transparent 1px 8px) 0 0 / 100% 6px no-repeat,
+    /* Lo ya recorrido. */ linear-gradient(var(--body-raised), var(--body-raised)) 0 0 / var(--progress) 100%
+    no-repeat;
+  border-bottom: 1px solid var(--body-soft);
+}
+
+/* Las marcas largas sí son datos: un hito de la traza. */
+.ticks {
+  position: absolute;
+  inset: 0 0 auto;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.ticks path {
+  fill: none;
+  stroke: var(--body-text);
+  stroke-width: 1.5;
+}
+
+.range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background: none;
+  cursor: ew-resize;
+  appearance: none;
+}
+
+/* El retículo: una línea fina, con una zona de agarre más ancha que la línea. */
+.range::-webkit-slider-runnable-track {
+  height: 100%;
+  background: none;
+}
+
+.range::-webkit-slider-thumb {
+  width: 1.25rem;
+  height: 2.75rem;
+  background: linear-gradient(90deg, transparent 8px, var(--reticle) 8px 12px, transparent 12px);
+  appearance: none;
+}
+
+.range::-moz-range-track {
+  height: 100%;
+  background: none;
+}
+
+.range::-moz-range-thumb {
+  width: 1.25rem;
+  height: 2.75rem;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(90deg, transparent 8px, var(--reticle) 8px 12px, transparent 12px);
+}
+
+.readout {
+  flex: none;
+  min-width: 8.5rem;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.speed,
+.granularity {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-sm);
+}
+
+.speed select,
+.granularity select {
+  min-height: 2.75rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--body-soft);
+  border-radius: 2px;
+  background: var(--body);
+  color: var(--body-text);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 56rem) {
+  .bar {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 0.5rem;
+  }
+
+  .readout {
+    order: 1;
+    flex: 1 1 auto;
+    min-width: 0;
+    line-height: 1.2;
+    text-align: left;
+  }
+
+  .granularity {
+    order: 1;
+  }
+
+  .granularity select {
+    min-height: 2.25rem;
+  }
+
+  .scale {
+    order: 2;
+    flex: 1 0 100%;
+  }
+
+  .buttons {
+    order: 3;
+    gap: 0;
+  }
+
+  .speed {
+    order: 4;
+  }
+
+  .speed span,
+  .granularity span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+}

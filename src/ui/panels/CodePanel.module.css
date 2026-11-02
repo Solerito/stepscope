@@ -1,0 +1,62 @@
+.code {
+  overflow-x: auto;
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+}
+
+.lines {
+  display: table;
+  min-width: 100%;
+}
+
+.line {
+  display: table-row;
+}
+
+.gutter {
+  display: table-cell;
+  width: 2.25rem;
+  padding-right: 0.6rem;
+  border-left: 4px solid transparent;
+  color: var(--ink-soft);
+  text-align: right;
+  user-select: none;
+}
+
+.content {
+  display: table-cell;
+  padding-right: 0.5rem;
+  white-space: pre;
+}
+
+.line[data-active='true'] .gutter,
+.line[data-active='true'] .content {
+  background: var(--hematoxylin-soft);
+  font-weight: 700;
+}
+
+.line[data-active='true'] .gutter {
+  border-left-color: var(--hematoxylin);
+  color: var(--hematoxylin);
+}
+
+.badge {
+  display: inline-block;
+  margin-left: 0.75rem;
+  padding: 0 0.4rem;
+  border: 1.5px solid var(--hematoxylin);
+  border-radius: 2px;
+  background: var(--slide);
+  color: var(--hematoxylin);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.badge[data-phase='return'],
+.badge[data-phase='memo-hit'] {
+  border-color: var(--eosin);
+  color: var(--eosin);
+}

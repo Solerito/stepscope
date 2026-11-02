@@ -1,0 +1,20 @@
+.wrapper {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--hematoxylin);
+  font-size: var(--text-sm);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.status {
+  font-size: var(--text-sm);
+  color: var(--ink-soft);
+}

@@ -1,0 +1,74 @@
+.page {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.title {
+  font-size: var(--text-2xl);
+  line-height: 1.1;
+}
+
+.lead {
+  margin-top: 0.5rem;
+}
+
+.device {
+  margin-top: 0.5rem;
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+
+.run {
+  margin-top: 1rem;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border: 0;
+  border-radius: 2px;
+  background: var(--hematoxylin);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.run:disabled {
+  cursor: progress;
+}
+
+.surface {
+  position: relative;
+  height: 20rem;
+  margin-top: 1rem;
+  border: 1px solid var(--ink);
+  background: var(--slide);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  margin-top: 1.5rem;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.table caption {
+  margin-bottom: 0.4rem;
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-align: left;
+}
+
+.table th,
+.table td {
+  padding: 0.35rem 0.5rem 0.35rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  font-weight: 400;
+}
+
+.table thead th {
+  font-weight: 700;
+  border-bottom: 2px solid var(--ink);
+}

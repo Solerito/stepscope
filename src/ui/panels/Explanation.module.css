@@ -1,0 +1,23 @@
+.block {
+  padding: 0.6rem 1rem;
+}
+
+.explain {
+  min-height: 1.4em;
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.notice {
+  margin-top: 0.25rem;
+  color: var(--eosin);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 56rem) {
+  .explain {
+    min-height: 2.6em;
+    font-size: 1.0625rem;
+  }
+}

@@ -1,0 +1,106 @@
+/*
+ * La paleta sale de una preparación histológica al microscopio: tinción de hematoxilina y eosina sobre
+ * campo claro, con el cuerpo del instrumento alrededor. El color nunca es la única señal: cada rol
+ * añade glifo y patrón (scene/roles.ts).
+ */
+:root {
+  --field: #ecebf5;
+  --slide: #fcfbff;
+  --ink: #1e1a38;
+  --ink-soft: #565078;
+  --rule: #c7c3dc;
+
+  --hematoxylin: #43359c;
+  --hematoxylin-soft: #dcd8f4;
+  --eosin: #c2185b;
+  --eosin-soft: #fbdce8;
+  --stain-neutral: #d7d3ec;
+
+  --body: #25213f;
+  --body-raised: #38335a;
+  --body-text: #f3f1fb;
+  --body-soft: #b9b4d6;
+  --reticle: #ff8fb8;
+
+  --font-ui: 'Atkinson Hyperlegible Next Variable', system-ui, sans-serif;
+  --font-code: 'Atkinson Hyperlegible Mono Variable', ui-monospace, monospace;
+
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5625rem;
+  --text-2xl: 2.441rem;
+  --text-hero: clamp(3rem, 9vw, 6.5rem);
+
+  --sh-class: #1f5a32;
+  --sh-identifier: var(--ink);
+  --sh-sign: var(--ink-soft);
+  --sh-property: var(--ink);
+  --sh-entity: var(--hematoxylin);
+  --sh-jsxliterals: var(--ink);
+  --sh-string: #a0124b;
+  --sh-keyword: var(--hematoxylin);
+  --sh-comment: var(--ink-soft);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--field);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3,
+p,
+dl,
+dd,
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--hematoxylin);
+}
+
+:focus-visible {
+  outline: 3px solid var(--eosin);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

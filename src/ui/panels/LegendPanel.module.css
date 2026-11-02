@@ -1,0 +1,84 @@
+.legend {
+  margin-top: 1rem;
+}
+
+.title {
+  margin-bottom: 0.4rem;
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1rem;
+  font-size: var(--text-sm);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.glyph {
+  font-weight: 700;
+}
+
+.swatch {
+  --swatch: var(--stain-neutral);
+  --swatch-line: var(--ink-soft);
+  --swatch-bg: var(--slide);
+  display: inline-block;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  background: var(--swatch);
+}
+
+.swatch[data-stain='hematoxylin'] {
+  --swatch: var(--hematoxylin);
+  --swatch-line: var(--hematoxylin);
+  --swatch-bg: var(--hematoxylin-soft);
+}
+
+.swatch[data-stain='eosin'] {
+  --swatch: var(--eosin);
+  --swatch-line: var(--eosin);
+  --swatch-bg: var(--eosin-soft);
+}
+
+.swatch[data-stain='ink'] {
+  --swatch: var(--ink);
+  --swatch-line: var(--ink);
+  --swatch-bg: var(--stain-neutral);
+}
+
+.swatch[data-pattern='hatch'] {
+  background: repeating-linear-gradient(135deg, var(--swatch-line) 0 1.5px, var(--swatch-bg) 1.5px 5px);
+}
+
+.swatch[data-pattern='cross'] {
+  background:
+    repeating-linear-gradient(135deg, var(--swatch-line) 0 1.5px, transparent 1.5px 5px),
+    repeating-linear-gradient(45deg, var(--swatch-line) 0 1.5px, var(--swatch-bg) 1.5px 5px);
+}
+
+.swatch[data-pattern='dots'] {
+  background: radial-gradient(var(--swatch-line) 1.3px, var(--swatch-bg) 1.5px) 0 0 / 5px 5px;
+}
+
+.swatch[data-outline='thick'] {
+  border-width: 2.5px;
+}
+
+.swatch[data-outline='dashed'] {
+  border-style: dashed;
+  border-width: 1.5px;
+}
+
+.swatch[data-outline='double'] {
+  border-style: double;
+  border-width: 4px;
+}

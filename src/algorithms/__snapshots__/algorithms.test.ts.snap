@@ -1,0 +1,825 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`binary-search > traza dorada: Está a la derecha 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 7,
+    "reads": 4,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "ol1gcw",
+  "frames": 9,
+  "result": 6,
+}
+`;
+
+exports[`binary-search > traza dorada: Está a la izquierda 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 3,
+    "reads": 2,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "v6bc95",
+  "frames": 5,
+  "result": 1,
+}
+`;
+
+exports[`binary-search > traza dorada: No está 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 6,
+    "reads": 3,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "15l275j",
+  "frames": 8,
+  "result": -1,
+}
+`;
+
+exports[`binary-search-answer > traza dorada: Seis paquetes en tres días 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 33,
+    "reads": 30,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "vywisi",
+  "frames": 74,
+  "result": 6,
+}
+`;
+
+exports[`binary-search-answer > traza dorada: Un día por paquete 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 23,
+    "reads": 20,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "j6wzh6",
+  "frames": 57,
+  "result": 9,
+}
+`;
+
+exports[`binary-search-answer > traza dorada: Un solo día: todo junto 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 10,
+    "reads": 9,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "1x2wf7b",
+  "frames": 24,
+  "result": 9,
+}
+`;
+
+exports[`bubble-sort > traza dorada: Desordenado 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 14,
+    "reads": 42,
+    "savedCalls": 0,
+    "swaps": 7,
+    "writes": 14,
+  },
+  "fingerprint": "tk4f78",
+  "frames": 26,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+  ],
+}
+`;
+
+exports[`bubble-sort > traza dorada: Inverso (peor caso) 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 15,
+    "reads": 60,
+    "savedCalls": 0,
+    "swaps": 15,
+    "writes": 30,
+  },
+  "fingerprint": "ynu7ny",
+  "frames": 36,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ],
+}
+`;
+
+exports[`bubble-sort > traza dorada: Ya ordenado: termina en una pasada 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 5,
+    "reads": 10,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "1cux4jc",
+  "frames": 7,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ],
+}
+`;
+
+exports[`counting-sort > traza dorada: Con repetidos 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 7,
+    "reads": 48,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 28,
+  },
+  "fingerprint": "rfcqv1",
+  "frames": 22,
+  "result": [
+    0,
+    1,
+    1,
+    2,
+    3,
+    3,
+    4,
+    4,
+  ],
+}
+`;
+
+exports[`counting-sort > traza dorada: Inverso 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 6,
+    "reads": 47,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 27,
+  },
+  "fingerprint": "1ue44sv",
+  "frames": 22,
+  "result": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ],
+}
+`;
+
+exports[`counting-sort > traza dorada: Todos iguales 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 3,
+    "reads": 24,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 14,
+  },
+  "fingerprint": "1ntk448",
+  "frames": 12,
+  "result": [
+    2,
+    2,
+    2,
+    2,
+  ],
+}
+`;
+
+exports[`fibonacci-memo > traza dorada: fib(6) 1`] = `
+{
+  "counters": {
+    "calls": 11,
+    "comparisons": 8,
+    "reads": 0,
+    "savedCalls": 14,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "1jvd56d",
+  "frames": 37,
+  "result": 8,
+}
+`;
+
+exports[`heap-sort > traza dorada: Desordenado 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 19,
+    "reads": 66,
+    "savedCalls": 0,
+    "swaps": 14,
+    "writes": 28,
+  },
+  "fingerprint": "grltg7",
+  "frames": 63,
+  "result": [
+    1,
+    3,
+    4,
+    5,
+    7,
+    8,
+    10,
+  ],
+}
+`;
+
+exports[`heap-sort > traza dorada: Inverso: ya es un montículo 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 18,
+    "reads": 58,
+    "savedCalls": 0,
+    "swaps": 11,
+    "writes": 22,
+  },
+  "fingerprint": "yl7xhm",
+  "frames": 56,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+  ],
+}
+`;
+
+exports[`heap-sort > traza dorada: Ya ordenado 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 21,
+    "reads": 74,
+    "savedCalls": 0,
+    "swaps": 16,
+    "writes": 32,
+  },
+  "fingerprint": "11r07at",
+  "frames": 69,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+  ],
+}
+`;
+
+exports[`insertion-sort > traza dorada: Desordenado 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 12,
+    "reads": 17,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 14,
+  },
+  "fingerprint": "2r6f8",
+  "frames": 37,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ],
+}
+`;
+
+exports[`insertion-sort > traza dorada: Inverso (peor caso) 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 15,
+    "reads": 20,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 20,
+  },
+  "fingerprint": "1cmfyn1",
+  "frames": 46,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ],
+}
+`;
+
+exports[`insertion-sort > traza dorada: Ya ordenado (mejor caso) 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 5,
+    "reads": 10,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 5,
+  },
+  "fingerprint": "26fj62",
+  "frames": 21,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ],
+}
+`;
+
+exports[`linear-search > traza dorada: Está al principio (mejor caso) 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 1,
+    "reads": 1,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "1b70jpi",
+  "frames": 2,
+  "result": 0,
+}
+`;
+
+exports[`linear-search > traza dorada: Está en medio 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 4,
+    "reads": 4,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "vetvas",
+  "frames": 8,
+  "result": 3,
+}
+`;
+
+exports[`linear-search > traza dorada: No está (peor caso) 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 6,
+    "reads": 6,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "1inorqz",
+  "frames": 13,
+  "result": -1,
+}
+`;
+
+exports[`merge-sort > traza dorada: Desordenado, con un duplicado 1`] = `
+{
+  "counters": {
+    "calls": 15,
+    "comparisons": 17,
+    "reads": 65,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 48,
+  },
+  "fingerprint": "uzf2cw",
+  "frames": 123,
+  "result": [
+    3,
+    3,
+    9,
+    10,
+    27,
+    38,
+    43,
+    82,
+  ],
+}
+`;
+
+exports[`merge-sort > traza dorada: Inverso 1`] = `
+{
+  "counters": {
+    "calls": 11,
+    "comparisons": 7,
+    "reads": 39,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 32,
+  },
+  "fingerprint": "1pda35y",
+  "frames": 81,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ],
+}
+`;
+
+exports[`merge-sort > traza dorada: Ya ordenado: tarda lo mismo 1`] = `
+{
+  "counters": {
+    "calls": 11,
+    "comparisons": 9,
+    "reads": 41,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 32,
+  },
+  "fingerprint": "t1u72x",
+  "frames": 83,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ],
+}
+`;
+
+exports[`quick-sort > traza dorada: Desordenado 1`] = `
+{
+  "counters": {
+    "calls": 11,
+    "comparisons": 17,
+    "reads": 64,
+    "savedCalls": 0,
+    "swaps": 21,
+    "writes": 42,
+  },
+  "fingerprint": "1sfposv",
+  "frames": 75,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+  ],
+}
+`;
+
+exports[`quick-sort > traza dorada: Pivote aleatorio 1`] = `
+{
+  "counters": {
+    "calls": 13,
+    "comparisons": 18,
+    "reads": 64,
+    "savedCalls": 0,
+    "swaps": 20,
+    "writes": 40,
+  },
+  "fingerprint": "1tqbxin",
+  "frames": 82,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+  ],
+}
+`;
+
+exports[`quick-sort > traza dorada: Ya ordenado con el último como pivote (… 1`] = `
+{
+  "counters": {
+    "calls": 15,
+    "comparisons": 28,
+    "reads": 119,
+    "savedCalls": 0,
+    "swaps": 42,
+    "writes": 84,
+  },
+  "fingerprint": "x0h6lg",
+  "frames": 121,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+  ],
+}
+`;
+
+exports[`quick-sort > traza dorada: Ya ordenado con mediana de tres 1`] = `
+{
+  "counters": {
+    "calls": 9,
+    "comparisons": 21,
+    "reads": 55,
+    "savedCalls": 0,
+    "swaps": 13,
+    "writes": 26,
+  },
+  "fingerprint": "v9jsbm",
+  "frames": 56,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+  ],
+}
+`;
+
+exports[`radix-sort > traza dorada: Todo ceros 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 2,
+    "reads": 3,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "iy72ug",
+  "frames": 2,
+  "result": [
+    0,
+    0,
+    0,
+  ],
+}
+`;
+
+exports[`radix-sort > traza dorada: Tres cifras 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 7,
+    "reads": 56,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 48,
+  },
+  "fingerprint": "arqdf8",
+  "frames": 56,
+  "result": [
+    2,
+    24,
+    45,
+    66,
+    75,
+    90,
+    170,
+    802,
+  ],
+}
+`;
+
+exports[`radix-sort > traza dorada: Una cifra 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 7,
+    "reads": 24,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 16,
+  },
+  "fingerprint": "wz8ixj",
+  "frames": 20,
+  "result": [
+    1,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    9,
+  ],
+}
+`;
+
+exports[`selection-sort > traza dorada: Con duplicados: no es estable 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 10,
+    "reads": 28,
+    "savedCalls": 0,
+    "swaps": 4,
+    "writes": 8,
+  },
+  "fingerprint": "42dcrn",
+  "frames": 19,
+  "result": [
+    1,
+    1,
+    2,
+    3,
+    3,
+  ],
+}
+`;
+
+exports[`selection-sort > traza dorada: Desordenado 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 15,
+    "reads": 40,
+    "savedCalls": 0,
+    "swaps": 5,
+    "writes": 10,
+  },
+  "fingerprint": "nekscv",
+  "frames": 26,
+  "result": [
+    5,
+    10,
+    13,
+    14,
+    29,
+    37,
+  ],
+}
+`;
+
+exports[`selection-sort > traza dorada: Ya ordenado: compara igual 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 15,
+    "reads": 40,
+    "savedCalls": 0,
+    "swaps": 5,
+    "writes": 10,
+  },
+  "fingerprint": "e3u8fw",
+  "frames": 26,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ],
+}
+`;
+
+exports[`shell-sort > traza dorada: Desordenado 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 21,
+    "reads": 38,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 24,
+  },
+  "fingerprint": "dzcrp0",
+  "frames": 66,
+  "result": [
+    1,
+    4,
+    8,
+    15,
+    16,
+    23,
+    30,
+    42,
+  ],
+}
+`;
+
+exports[`shell-sort > traza dorada: Inverso 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 22,
+    "reads": 39,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 29,
+  },
+  "fingerprint": "dprwlu",
+  "frames": 72,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+  ],
+}
+`;
+
+exports[`shell-sort > traza dorada: Ya ordenado 1`] = `
+{
+  "counters": {
+    "calls": 0,
+    "comparisons": 8,
+    "reads": 16,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 8,
+  },
+  "fingerprint": "15z0cit",
+  "frames": 27,
+  "result": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+  ],
+}
+`;

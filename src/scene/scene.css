@@ -1,0 +1,119 @@
+/* Clases que usa el pintor SVG. Los tokens de color están en ui/styles/tokens.css. */
+
+.ss-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-ui);
+  user-select: none;
+}
+
+.ss-shape {
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.ss-ring {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.25;
+}
+
+.ss-outline-thick .ss-shape {
+  stroke-width: 2.5;
+}
+
+.ss-outline-dashed .ss-shape {
+  stroke-dasharray: 4 3;
+  stroke-width: 1.5;
+}
+
+.ss-pattern-solid.ss-stain-neutral .ss-shape {
+  fill: var(--stain-neutral);
+}
+
+.ss-pattern-solid.ss-stain-hematoxylin .ss-shape {
+  fill: var(--hematoxylin);
+}
+
+.ss-pattern-solid.ss-stain-eosin .ss-shape {
+  fill: var(--eosin);
+}
+
+.ss-pattern-solid.ss-stain-ink .ss-shape {
+  fill: var(--ink);
+}
+
+.ss-tile-neutral {
+  --tile-bg: var(--slide);
+  --tile-line: var(--ink-soft);
+}
+
+.ss-tile-hematoxylin {
+  --tile-bg: var(--hematoxylin-soft);
+  --tile-line: var(--hematoxylin);
+}
+
+.ss-tile-eosin {
+  --tile-bg: var(--eosin-soft);
+  --tile-line: var(--eosin);
+}
+
+.ss-tile-ink {
+  --tile-bg: var(--stain-neutral);
+  --tile-line: var(--ink);
+}
+
+.ss-tile-bg {
+  fill: var(--tile-bg);
+}
+
+.ss-tile-line {
+  fill: none;
+  stroke: var(--tile-line);
+  stroke-width: 1.4;
+}
+
+.ss-tile-dot {
+  fill: var(--tile-line);
+}
+
+.ss-label,
+.ss-badge,
+.ss-glyph,
+.ss-text {
+  fill: var(--ink);
+  text-anchor: middle;
+}
+
+.ss-label {
+  font-weight: 500;
+}
+
+.ss-on-dark .ss-label {
+  fill: #fff;
+}
+
+.ss-glyph {
+  font-weight: 700;
+}
+
+.ss-badge {
+  fill: var(--ink);
+  font-weight: 700;
+}
+
+.ss-link {
+  stroke: var(--ink-soft);
+  stroke-width: 1.25;
+}
+
+.ss-text {
+  font-weight: 700;
+}
+
+.ss-role-active.ss-text,
+.ss-role-active.ss-link {
+  fill: var(--hematoxylin);
+  stroke: var(--hematoxylin);
+}

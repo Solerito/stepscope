@@ -1,0 +1,82 @@
+.page {
+  max-width: 62rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 7vw, 5rem) 1rem 4rem;
+}
+
+.header {
+  margin-bottom: clamp(2.5rem, 7vw, 5rem);
+}
+
+.title {
+  font-size: var(--text-hero);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--hematoxylin);
+}
+
+.lead {
+  margin-top: 1rem;
+  max-width: 34rem;
+  font-size: var(--text-lg);
+  line-height: 1.4;
+}
+
+.notice {
+  margin-bottom: 2rem;
+  padding: 0.75rem 1rem;
+  border-left: 4px solid var(--eosin);
+  background: var(--slide);
+}
+
+.category {
+  margin-top: 2.5rem;
+}
+
+.categoryName {
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--ink);
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: minmax(0, 16rem) minmax(0, 1fr) auto;
+  gap: 0.25rem 1.5rem;
+  align-items: baseline;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+}
+
+.itemName {
+  font-weight: 700;
+  color: var(--hematoxylin);
+}
+
+.item:hover .itemName {
+  text-decoration: underline;
+}
+
+.itemSummary {
+  color: var(--ink-soft);
+}
+
+.itemCost {
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 40rem) {
+  .item {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .itemSummary {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}

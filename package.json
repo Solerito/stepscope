@@ -1,0 +1,45 @@
+{
+  "name": "stepscope",
+  "version": "0.1.0",
+  "description": "Visualizador interactivo de algoritmos: un microscopio para ver qué hacen por dentro, paso a paso.",
+  "scripts": {
+    "test": "vitest run",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc -b",
+    "test:watch": "vitest",
+    "test:update": "vitest run -u",
+    "e2e": "playwright test"
+  },
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "@fontsource-variable/atkinson-hyperlegible-mono": "^5.3.0",
+    "@fontsource-variable/atkinson-hyperlegible-next": "^5.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "sugar-high": "^2.6.4",
+    "zustand": "^5.0.16"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@biomejs/biome": "^2.6.4",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "acorn": "^8.19.0",
+    "fast-check": "^4.10.2",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}
