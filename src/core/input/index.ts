@@ -114,12 +114,20 @@ export function intArray(
   };
 }
 
+export interface IntField extends InputField<number> {
+  readonly kind: 'int';
+  readonly min: number;
+  readonly max: number;
+}
+
 export function intInRange(options: {
   label: string;
   min: number;
   max: number;
   default: number;
-}): InputField<number> & { readonly min: number; readonly max: number } {
+  /** Configura el algoritmo, como una semilla, en vez de ser un dato: ver `InputField.variant`. */
+  variant?: boolean;
+}): IntField {
   const { min, max } = options;
 
   return {
@@ -128,6 +136,7 @@ export function intInRange(options: {
     default: options.default,
     min,
     max,
+    variant: options.variant ?? false,
 
     parse(text) {
       const value = Number(text.trim());
@@ -157,7 +166,7 @@ export interface ChoiceField<O extends string> extends InputField<O> {
   readonly options: Readonly<Record<O, string>>;
 }
 
-/** Una opción entre varias, como la regla del pivote de quicksort. */
+/** Una opción entre varias, como la regla del pivote de quicksort. Elige una variante, no un dato. */
 export function choice<const O extends string>(options: {
   label: string;
   options: Readonly<Record<O, string>>;
@@ -171,6 +180,7 @@ export function choice<const O extends string>(options: {
     label: options.label,
     default: options.default,
     options: options.options,
+    variant: true,
 
     parse(text) {
       if (!isOption(text)) {

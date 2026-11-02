@@ -1,6 +1,6 @@
 {
   "name": "stepscope",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Visualizador interactivo de algoritmos: un microscopio para ver qué hacen por dentro, paso a paso.",
   "scripts": {
     "test": "vitest run",
@@ -12,7 +12,8 @@
     "typecheck": "tsc -b",
     "test:watch": "vitest",
     "test:update": "vitest run -u",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "budget": "node scripts/bundle-budget.mjs"
   },
   "type": "module",
   "private": true,

@@ -1,8 +1,10 @@
 export * from './algorithm';
 export * from './input';
+export * from './input/shared';
 export * from './source/extract';
 export * from './trace/builder';
 export * from './trace/cursor';
+export * from './trace/export';
 export { seededRandom } from './trace/random';
 export * from './trace/run';
 export * from './trace/types';

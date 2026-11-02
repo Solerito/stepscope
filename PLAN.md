@@ -47,7 +47,7 @@ Este plan no se apoya en intuiciones cuando se podía medir. Todo se hizo en mem
 - **Safari e iPhone reales.** CPU ×4 aproxima un móvil medio, pero no sustituye a uno: throttling de CPU, no de GPU, y motor Blink, no WebKit. Es la condición de salida de la Fase 1.
 - **Las cifras de §1.4 y §1.5** vienen de los prototipos previos a la Fase 1. La implementación real se mide en `#/bench`: en este portátil, 60 fps en los tres casos y arrastre de la barra en 0,2 ms sobre una traza sintética de 100 000 frames (34,1 MB).
 
-**Confirmado en la Fase 1:** TS 7 compila todo con `tsc -b`, y el bundle inicial son 101 kB comprimidos, muy por debajo de los 250 kB estimados.
+**Confirmado en la Fase 1:** TS 7 compila todo con `tsc -b`, y el bundle inicial son 101 kB comprimidos, muy por debajo de los 250 kB estimados. En F4, con la comparación, son 119 kB, y CI impone un presupuesto de 140 kB.
 
 ---
 
@@ -329,7 +329,7 @@ Versiones consultadas en npm el 2026-11-01.
 | Componentes | Nativos: `<input type="range">`, `<select>`, `<dialog>` | Accesibles por defecto. Radix solo si algo no da la talla |
 | CSS | CSS Modules + tokens en variables CSS | Sin runtime; Canvas lee los mismos tokens |
 | Despliegue | Vercel, al hacer push; `base: '/'` | Deploy preview por rama con URL estable: se prueba en el iPhone antes de fusionar |
-| CI | GitHub Actions: lint, tipos, tests, build y E2E | No despliega, así que CI y despliegue quedan desacoplados: Vercel publicaría cualquier push a `main` aunque fallen los tests. Por eso `main` se protege y solo acepta PRs en verde (§9) |
+| CI | GitHub Actions: lint, tipos, tests, build, presupuesto del bundle y E2E | No despliega, así que CI y despliegue quedan desacoplados: Vercel publicaría cualquier push a `main` aunque fallen los tests. Por eso `main` se protege y solo acepta PRs en verde (§9) |
 | Gestor de paquetes | npm | `pnpm` está roto en tu máquina (`error: CommandNotFound`) |
 
 **Una trampa de compatibilidad, resuelta.** `typescript-eslint` 8.72 exige `typescript <6.1.0`, TS 7 ya no expone la API clásica del compilador y `eslint-plugin-jsx-a11y` llega solo hasta ESLint 9. Con Biome ninguna herramienta depende de esa API, y TS 7 queda libre. Si TS 7 diera problemas, volver a `typescript@6` es cambiar una línea. Por la misma razón, el plugin de fidelidad usa `acorn` y `node:module`, no la API de TS.
@@ -951,6 +951,8 @@ stepscope/
     │
     ├── player/                   # Sin React: reloj y estado de reproducción
     │   ├── clock.ts              # Bucle rAF; (i, t) a partir de velocidad y tiempo
+    │   ├── presenter.ts          # Pinta un frame y publica los paneles; no decide cuál (F4)
+    │   ├── engine.ts             # El reproductor: decide qué frame toca
     │   ├── store.ts              # Un store de Zustand por reproductor
     │   ├── compare.ts            # Reloj compartido y búsqueda por coste
     │   └── keyboard.ts
@@ -1455,6 +1457,29 @@ Sin algoritmos nuevos. Va aquí porque ya hay con qué comparar. Incluye el cier
 - Axe sin errores y toda la interfaz usable solo con teclado.
 - v1.0.0 en producción.
 
+**Estado (2026-11-02).** Construida en local y en verde: 378 tests unitarios y 138 E2E en Chromium, WebKit y móvil. Lo que trae:
+
+- **Comparación** en `#/compare/<a>/<b>`: dos platinas con un reloj que cuenta operaciones (comparaciones, escrituras y llamadas), tabla de contadores con quién hace menos, enlace al instante exacto y disposición apilada en móvil. Se llega desde el catálogo, con cuatro comparaciones preparadas, o desde cualquier algoritmo con «Comparar con otro».
+- **Exportar la traza a JSON:** cabecera, estado inicial y el delta de cada frame. Un test de la batería la reconstruye entera con un lector independiente que solo sigue el formato documentado.
+- **Presupuesto de bundle en CI:** 119 kB medidos, 140 kB de límite.
+- **Auditoría de accesibilidad automatizada:** axe en el catálogo, en los 13 algoritmos y en las comparaciones preparadas; recorrido con tabulador de la comparación; y una simulación de protanopía, deuteranopía, tritanopía y acromatopsia sobre las tinciones de `tokens.css`. La pareja más justa, hematoxilina frente a eosina en gris, queda a 0,11 en OKLab, unas cinco veces la diferencia mínima perceptible.
+- **README** para quien lo abre en una entrevista, con los casos preparados enlazados.
+
+La salida se cumple en local:
+
+- **Sin código por algoritmo.** Dos algoritmos son comparables si sus campos de datos coinciden en nombre y tipo, y cada campo común acepta solo lo que aceptan los dos. Quedan comparables las 9 ordenaciones entre sí (counting sort y radix sort restringen el rango) y las dos búsquedas por valor. Fibonacci con memo no tiene pareja hasta F2, y la página lo dice en vez de inventarse una.
+- **Rendimiento.** La comparación real con dos arrays de 100 da 60 fps en Chrome sin pantalla, también con la CPU a ×4 y a cualquier velocidad. `#/bench` añade ese caso para medirlo en el iPhone.
+- **Axe y teclado**, en los tres navegadores.
+
+**Pendiente, solo se puede hacer fuera:** medir `#/bench` y la comparación en el iPhone sobre el deploy preview, la pasada con VoiceOver y la etiqueta `v1.0.0` tras fusionar.
+
+Cuatro decisiones al construirla:
+
+- **Pintar y decidir el frame, por separado.** El reproductor se partió en `FramePresenter`, que pinta y publica, y el reloj que decide qué frame toca. La comparación son dos presentadores y un reloj; los paneles no saben cuál de los dos casos tienen delante.
+- **Campos de variante.** `choice` y los campos con `variant: true` (la semilla de quicksort) configuran el algoritmo en vez de darle datos. En la comparación son los únicos que cada lado elige por separado, y con el mismo algoritmo en los dos lados, B empieza en la opción siguiente. Es lo que permite comparar pivotes sin tratarlos aparte.
+- **Los frames sin coste se ven de camino.** Cada lado enseña el último frame cuyo coste no pasa del reloj. Uno que no cuesta nada, como abrir una pasada, se salta: el modo compara trabajo, no explicaciones.
+- **Exportar deltas, no estados completos.** Con el estado en cada frame, fib(15) pasaría de 1 MB a más de 500.
+
 ---
 
 ### Ampliación opcional
@@ -1550,7 +1575,7 @@ La primera ampliación: la familia de contenido prioritaria y la fase más cara.
 | **`stripTypeScriptTypes` es experimental en Node 24** | Baja | Bajo | Solo se usa en el plugin de fidelidad. El paquete subyacente (`amaro`) es una alternativa directa |
 | **Canvas sin semántica** | Segura si se amplía | Medio | Fuera de la v1. Solo en vistas densas, con vista en tabla, `aria-live` y prueba con VoiceOver en su fase |
 | **Volumen y agotamiento antes de terminar** | Media | Alto | La v1 se compromete a 13 archivos; los otros 43 son opcionales. Se empieza por lo barato y enseñable, y F2, la fase más cara, queda fuera. La batería universal evita escribir tests por algoritmo |
-| **Bundle inicial excesivo** | Baja | Bajo | Texto de los algoritmos en carga perezosa. Estimado por debajo de 250 kB comprimido, sin confirmar: se mide en F1 y se impone en F4 |
+| **Bundle inicial excesivo** | Baja | Bajo | Texto de los algoritmos en carga perezosa. Medido: 101 kB en F1 y 119 kB en F4. CI falla por encima de 140 kB (`npm run budget`) |
 | **El reproductor retiene el estado reutilizado del cursor** | Media | Medio | Contrato explícito en el tipo `Frame`. La escena se construye al momento y es una copia propia |
 
 ---

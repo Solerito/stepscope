@@ -28,6 +28,8 @@ jobs:
         run: npm test
       - name: Build
         run: npm run build
+      - name: Presupuesto del bundle
+        run: npm run budget
       - name: Navegadores
         run: npx playwright install --with-deps chromium webkit
       - name: End to end

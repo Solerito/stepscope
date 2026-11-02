@@ -41,6 +41,12 @@
   font-weight: 700;
 }
 
+.sectionLead {
+  max-width: 40rem;
+  margin-top: 0.75rem;
+  color: var(--ink-soft);
+}
+
 .item {
   display: grid;
   grid-template-columns: minmax(0, 16rem) minmax(0, 1fr) auto;

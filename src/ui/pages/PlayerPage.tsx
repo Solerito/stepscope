@@ -3,7 +3,8 @@ import { type ShownSource, TraceCursor, type ViewSpec } from '@/core';
 import type { RegisteredAlgorithm } from '../../algorithms/registry';
 import { formatAlgorithmHash } from '../../routing/hash';
 import { keyOf, titleOf } from '../../views/registry';
-import { InputForm, inputFromParams, paramsFromInput } from '../input-editors/InputForm';
+import { InputForm } from '../input-editors/InputForm';
+import { inputFromParams, paramsFromInput } from '../input-editors/params';
 import { CodePanel } from '../panels/CodePanel';
 import { ComplexityPanel } from '../panels/ComplexityPanel';
 import { CountersPanel } from '../panels/CountersPanel';
@@ -11,11 +12,13 @@ import { Explanation } from '../panels/Explanation';
 import { LegendPanel } from '../panels/LegendPanel';
 import { VariablesPanel } from '../panels/VariablesPanel';
 import { ViewPane } from '../stage/ViewPane';
+import { downloadTrace } from '../transport/download';
 import { KeyboardHelp } from '../transport/KeyboardHelp';
 import { ShareButton } from '../transport/ShareButton';
 import { Transport } from '../transport/Transport';
 import { NARROW, useMediaQuery } from '../useMediaQuery';
 import { useEngine, useTrace } from '../usePlayer';
+import { compareLinkFor, partnersOf } from './compare-model';
 import styles from './PlayerPage.module.css';
 
 const FRAME_URL_DELAY_MS = 500;
@@ -103,6 +106,7 @@ export function PlayerPage({ algorithm, initialParams }: Props) {
   };
 
   const { stage, side } = placeViews(trace?.header.views ?? [], narrow);
+  const canCompare = useMemo(() => partnersOf(algorithm).length > 0, [algorithm]);
 
   const tabs = [
     { id: 'code', label: 'Código' },
@@ -138,7 +142,17 @@ export function PlayerPage({ algorithm, initialParams }: Props) {
         </div>
         <div className={styles.actions}>
           {engine ? <ShareButton link={shareLink} /> : null}
-          <button type="button" className={styles.helpButton} onClick={openHelp}>
+          {canCompare ? (
+            <a className={styles.headerLink} href={compareLinkFor(algorithm, input)}>
+              Comparar con otro
+            </a>
+          ) : null}
+          {trace ? (
+            <button type="button" className={styles.headerLink} onClick={() => downloadTrace(trace)}>
+              Descargar la traza
+            </button>
+          ) : null}
+          <button type="button" className={styles.headerLink} onClick={openHelp}>
             Atajos de teclado
           </button>
         </div>

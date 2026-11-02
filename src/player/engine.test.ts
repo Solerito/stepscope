@@ -2,29 +2,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { runTrace } from '@/core';
 import insertionSort from '../algorithms/sorting/insertion-sort.algo';
 import type { Renderer, Scene, SceneBox } from '../scene/types';
-import type { Clock, FrameCallback } from './clock';
+import { FakeClock } from '../test/fake-clock';
 import { defaultSpeed, PlayerEngine } from './engine';
-
-class FakeClock implements Clock {
-  callback: FrameCallback | null = null;
-
-  start(callback: FrameCallback) {
-    this.callback = callback;
-  }
-
-  stop() {
-    this.callback = null;
-  }
-
-  tick(ms: number) {
-    this.callback?.(ms);
-  }
-
-  /** Avanza en pasos de 16 ms hasta agotar el tiempo o hasta que el reloj se pare. */
-  run(ms: number) {
-    for (let elapsed = 0; elapsed < ms && this.callback; elapsed += 16) this.tick(16);
-  }
-}
 
 const spec = insertionSort.views[0];
 const trace = runTrace(insertionSort, { values: [5, 2, 4, 6, 1, 3] });

@@ -1,5 +1,5 @@
 import type { TraceHeader } from '@/core';
-import type { PlayerEngine } from '../../player/engine';
+import type { FrameSource } from '../../player/presenter';
 import { usePlayerState } from '../usePlayer';
 import { PHASE_LABELS } from './CodePanel';
 import styles from './Explanation.module.css';
@@ -13,7 +13,7 @@ const TRUNCATED_NOTICE: Readonly<Record<NonNullable<TraceHeader['truncated']>, s
 };
 
 interface Props {
-  readonly engine: PlayerEngine;
+  readonly engine: FrameSource;
   readonly truncated: TraceHeader['truncated'];
 }
 

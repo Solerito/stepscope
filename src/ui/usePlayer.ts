@@ -2,12 +2,13 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useStore } from 'zustand';
 import type { EncodedTrace } from '@/core';
 import { createRafClock } from '../player/clock';
+import { CompareEngine, type CompareState } from '../player/compare';
 import { PlayerEngine } from '../player/engine';
-import { bindKeyboard } from '../player/keyboard';
-import type { PlayerState } from '../player/store';
-import { requestTrace, TraceCancelled } from '../worker/client';
+import { bindKeys, compareCommands, playerCommands } from '../player/keyboard';
+import type { PlayerState, PlayerStore } from '../player/store';
+import { mainChannel, TraceCancelled, type TraceChannel } from '../worker/client';
 
-const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+export const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export interface TraceRequestState {
   readonly trace: EncodedTrace | null;
@@ -16,14 +17,18 @@ export interface TraceRequestState {
 }
 
 /** Pide la traza al worker. Mientras llega la nueva se sigue mostrando la anterior. */
-export function useTrace(algorithmId: string, input: unknown): TraceRequestState {
+export function useTrace(
+  algorithmId: string,
+  input: unknown,
+  channel: TraceChannel = mainChannel,
+): TraceRequestState {
   const [state, setState] = useState<TraceRequestState>({ trace: null, error: null, loading: true });
 
   useEffect(() => {
     let current = true;
     setState((previous) => ({ ...previous, loading: true }));
 
-    requestTrace(algorithmId, input).then(
+    channel.request(algorithmId, input).then(
       (trace) => {
         if (current) setState({ trace, error: null, loading: false });
       },
@@ -37,7 +42,7 @@ export function useTrace(algorithmId: string, input: unknown): TraceRequestState
     return () => {
       current = false;
     };
-  }, [algorithmId, input]);
+  }, [algorithmId, input, channel]);
 
   return state;
 }
@@ -61,7 +66,7 @@ export function useEngine(
   // Antes de pintar: en cuanto se ve el reproductor, las teclas ya tienen que funcionar.
   useLayoutEffect(() => {
     if (!engine) return;
-    const unbind = bindKeyboard(engine, onHelp);
+    const unbind = bindKeys(playerCommands(engine), onHelp);
     return () => {
       unbind();
       engine.stop();
@@ -71,6 +76,49 @@ export function useEngine(
   return engine;
 }
 
-export function usePlayerState<T>(engine: PlayerEngine, selector: (state: PlayerState) => T): T {
+/** Dos trazas, un reloj. Hasta que llegan las dos no hay nada que comparar. */
+export function useCompareEngine(
+  traces: readonly [EncodedTrace | null, EncodedTrace | null],
+  initialCost: number,
+  onHelp: () => void,
+): CompareEngine | null {
+  const start = useRef(initialCost);
+  const [left, right] = traces;
+
+  const engine = useMemo(() => {
+    if (!left || !right) return null;
+    const created = new CompareEngine([left, right], { clock: createRafClock(), prefersReducedMotion });
+    if (start.current > 0) created.seek(start.current);
+    start.current = 0;
+    return created;
+  }, [left, right]);
+
+  useLayoutEffect(() => {
+    if (!engine) return;
+    const unbind = bindKeys(compareCommands(engine), onHelp);
+    return () => {
+      unbind();
+      engine.stop();
+    };
+  }, [engine, onHelp]);
+
+  return engine;
+}
+
+export function usePlayerState<T>(
+  source: { readonly store: PlayerStore },
+  selector: (state: PlayerState) => T,
+): T {
+  return useStore(source.store, selector);
+}
+
+export function useCompareState<T>(engine: CompareEngine, selector: (state: CompareState) => T): T {
   return useStore(engine.store, selector);
+}
+
+/** Un canal de worker propio, que se libera al desmontar. */
+export function useTraceChannel(create: () => TraceChannel): TraceChannel {
+  const [channel] = useState(create);
+  useEffect(() => () => channel.dispose(), [channel]);
+  return channel;
 }

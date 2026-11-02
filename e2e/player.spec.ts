@@ -1,3 +1,4 @@
+import { readFile } from 'node:fs/promises';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, type Page, test } from '@playwright/test';
 
@@ -343,6 +344,56 @@ test.describe('fase 3: ordenación y búsqueda', () => {
       await expect(position(page)).toHaveText(/^Paso 1 de/);
       const { violations } = await new AxeBuilder({ page }).analyze();
       expect(violations, id).toEqual([]);
+    }
+  });
+});
+
+test.describe('exportar', () => {
+  test('descarga la traza en JSON, con un frame por paso', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'en móvil las acciones de la cabecera no se muestran');
+    await page.goto('/#/insertion-sort');
+    await expect(position(page)).toHaveText('Paso 1 de 37');
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.getByRole('button', { name: 'Descargar la traza' }).click(),
+    ]);
+    expect(download.suggestedFilename()).toMatch(/^stepscope-insertion-sort-[0-9a-z]+\.json$/);
+    const path = await download.path();
+    const exported = JSON.parse(await readFile(path, 'utf8'));
+    expect(exported.format).toBe('stepscope-trace');
+    expect(exported.frames).toHaveLength(37);
+    expect(exported.frames[1].explain).toBe('Guardo la clave 2');
+  });
+});
+
+test.describe('auditoría de accesibilidad', () => {
+  test('ningún algoritmo del catálogo tiene errores de axe', async ({ page }) => {
+    test.slow();
+    await page.goto('/');
+    const ids = await page
+      .locator('main a[href^="#/"]:not([href^="#/compare"])')
+      .evaluateAll((links) => links.map((link) => link.getAttribute('href') ?? ''));
+    expect(ids.length).toBeGreaterThanOrEqual(13);
+    for (const href of ids) {
+      await page.goto(`/${href}`);
+      await expect(position(page)).toHaveText(/^Paso 1 de/);
+      const { violations } = await new AxeBuilder({ page }).analyze();
+      expect(violations, href).toEqual([]);
+    }
+  });
+
+  test('las comparaciones preparadas tampoco', async ({ page }) => {
+    test.slow();
+    await page.goto('/');
+    const hrefs = await page
+      .locator('main a[href^="#/compare"]')
+      .evaluateAll((links) => links.map((link) => link.getAttribute('href') ?? ''));
+    expect(hrefs.length).toBeGreaterThan(0);
+    for (const href of hrefs) {
+      await page.goto(`/${href}`);
+      await expect(position(page)).toHaveText(/^Operación 0 de/);
+      const { violations } = await new AxeBuilder({ page }).analyze();
+      expect(violations, href).toEqual([]);
     }
   });
 });

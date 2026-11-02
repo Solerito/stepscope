@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { highlight } from 'sugar-high';
 import type { Phase, ShownSource } from '@/core';
-import type { PlayerEngine } from '../../player/engine';
+import type { FrameSource } from '../../player/presenter';
 import { usePlayerState } from '../usePlayer';
 import styles from './CodePanel.module.css';
 
@@ -16,7 +16,7 @@ export const PHASE_LABELS: Readonly<Record<Phase, { readonly glyph: string; read
   };
 
 interface Props {
-  readonly engine: PlayerEngine;
+  readonly engine: FrameSource;
   readonly source: ShownSource;
 }
 

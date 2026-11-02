@@ -22,7 +22,9 @@ export default defineAlgorithm({
     },
   },
 
-  // Cada campo sabe parsearse, validarse, generarse y volver a texto para la URL.
+  // Cada campo sabe parsearse, validarse, generarse y volver a texto para la URL. Los datos se comparten
+  // en el modo comparación; lo que configura el algoritmo (un `choice`, o un campo con `variant: true`,
+  // como una semilla) lo elige cada lado.
   input: form({
     values: intArray({ minLength: 1, maxLength: 100, min: -999, max: 999, default: [3, 1, 2] }),
   }),

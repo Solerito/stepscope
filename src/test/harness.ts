@@ -1,4 +1,4 @@
-import { COUNTER_NAMES, type EncodedTrace, TraceCursor } from '@/core';
+import { COUNTER_NAMES, type EncodedTrace, type ExportedTrace, TraceCursor, type TraceState } from '@/core';
 
 declare global {
   var __stepscopeHit: ((line: number) => void) | undefined;
@@ -90,4 +90,28 @@ export function seekMatchesSequential(trace: EncodedTrace, samples = 300): boole
     if (JSON.stringify(jumping.seek(index).state) !== expected[index]) return false;
   }
   return true;
+}
+
+/**
+ * Reconstruye cada estado de una traza exportada siguiendo solo lo que documenta el formato, como lo
+ * haría alguien que la lee sin el código de StepScope. Devuelve el estado de cada frame en JSON.
+ */
+export function replayExport(exported: ExportedTrace): string[] {
+  const state = JSON.parse(JSON.stringify(exported.initial)) as TraceState;
+  const states: string[] = [];
+  for (const frame of exported.frames) {
+    for (const [path, ...value] of frame.delta) {
+      let node = state as unknown as Record<string | number, unknown>;
+      for (const key of path.slice(0, -1)) node = node[key] as Record<string | number, unknown>;
+      const last = path.at(-1) as string | number;
+      if (value.length === 0) {
+        if (Array.isArray(node)) node.splice(last as number, 1);
+        else delete node[last];
+      } else {
+        node[last] = JSON.parse(JSON.stringify(value[0]));
+      }
+    }
+    states.push(JSON.stringify(state));
+  }
+  return states;
 }

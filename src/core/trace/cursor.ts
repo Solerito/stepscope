@@ -7,6 +7,7 @@ import {
   type Frame,
   type Level,
   PHASES,
+  type Phase,
   type StoredFrame,
   type TraceState,
 } from './types';
@@ -17,6 +18,8 @@ interface DecodedSegment {
 }
 
 const CACHED_SEGMENTS = 3;
+
+export type FrameMeta = Pick<Frame, 'anchor' | 'level' | 'phase' | 'counters'>;
 
 /** Reconstruye cualquier frame de una traza codificada. El `state` devuelto se reutiliza entre seeks. */
 export class TraceCursor {
@@ -66,18 +69,17 @@ export class TraceCursor {
     this.position = index;
 
     const stored = segment.fr[index - start - 1] as StoredFrame;
-    const anchor = this.trace.anchor[index] as number;
+    return { index, ...this.metaAt(index), explain: stored[0], marks: stored[1], arrows: stored[2], state };
+  }
 
+  /** Lo que guardan las columnas: no decodifica ningún segmento. */
+  metaAt(index: number): FrameMeta {
+    const anchor = this.trace.anchor[index] as number;
     return {
-      index,
       anchor: anchor === 0 ? null : (this.trace.header.anchors[anchor - 1] as string),
       level: this.trace.level[index] as Level,
-      phase: PHASES[this.trace.phase[index] as number] as Frame['phase'],
-      explain: stored[0],
+      phase: PHASES[this.trace.phase[index] as number] as Phase,
       counters: this.countersAt(index),
-      marks: stored[1],
-      arrows: stored[2],
-      state,
     };
   }
 

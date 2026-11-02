@@ -63,7 +63,7 @@ export default defineAlgorithm({
   input: form({
     values: intArray({ minLength: 1, maxLength: 100, min: -999, max: 999, default: [5, 2, 8, 1, 9, 3, 7, 4, 6] }),
     pivot: choice({ label: 'Pivote', options: RULES, default: 'last' }),
-    seed: intInRange({ label: 'Semilla del pivote aleatorio', min: 1, max: 9999, default: 1 }),
+    seed: intInRange({ label: 'Semilla del pivote aleatorio', min: 1, max: 9999, default: 1, variant: true }),
   }),
 
   views: [

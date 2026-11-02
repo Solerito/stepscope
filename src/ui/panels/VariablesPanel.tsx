@@ -1,8 +1,8 @@
-import type { PlayerEngine } from '../../player/engine';
+import type { FrameSource } from '../../player/presenter';
 import { usePlayerState } from '../usePlayer';
 import styles from './VariablesPanel.module.css';
 
-export function VariablesPanel({ engine }: { readonly engine: PlayerEngine }) {
+export function VariablesPanel({ engine }: { readonly engine: FrameSource }) {
   const vars = usePlayerState(engine, (state) => state.vars);
   const changed = usePlayerState(engine, (state) => state.changedVars);
   const names = Object.keys(vars);

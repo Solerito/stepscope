@@ -87,6 +87,12 @@
   stroke-width: 1.5;
 }
 
+/* En la comparación, dónde termina cada lado: la única marca que llega a la mitad de la escala. El rosa
+   queda para el retículo, que es lo que se mueve. */
+.ticks .endTick {
+  stroke-width: 3.5;
+}
+
 .range {
   position: absolute;
   inset: 0;
@@ -187,6 +193,16 @@
 
   .speed {
     order: 4;
+  }
+
+  /* Sin selector de detalle (la comparación), la velocidad sube a la fila de la lectura y la barra
+     ocupa una fila menos en pantalla. */
+  .bar:not(:has(.granularity)) .speed {
+    order: 1;
+  }
+
+  .bar:not(:has(.granularity)) .speed select {
+    min-height: 2.25rem;
   }
 
   .speed span,

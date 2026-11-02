@@ -1,0 +1,64 @@
+.wrapper {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.caption {
+  margin-bottom: 0.35rem;
+  font-size: var(--text-base);
+  font-weight: 700;
+  text-align: left;
+}
+
+.table th,
+.table td {
+  padding: 0.2rem 0.5rem 0.2rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  font-weight: 400;
+}
+
+.table td {
+  font-size: var(--text-base);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.total th,
+.total td {
+  border-bottom: 2px solid var(--ink);
+}
+
+.table thead th {
+  color: var(--ink-soft);
+}
+
+.of {
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+  font-weight: 400;
+}
+
+.verdict {
+  font-weight: 700;
+}
+
+.note {
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+}
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}

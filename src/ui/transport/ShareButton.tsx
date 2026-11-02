@@ -3,8 +3,13 @@ import styles from './ShareButton.module.css';
 
 const MESSAGE_MS = 2500;
 
+interface Props {
+  readonly link: () => string;
+  readonly label?: string;
+}
+
 /** Copia el enlace al paso exacto que se está viendo. */
-export function ShareButton({ link }: { readonly link: () => string }) {
+export function ShareButton({ link, label = 'Copiar enlace a este paso' }: Props) {
   const [status, setStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -24,7 +29,7 @@ export function ShareButton({ link }: { readonly link: () => string }) {
   return (
     <span className={styles.wrapper}>
       <button type="button" className={styles.button} onClick={copy}>
-        Copiar enlace a este paso
+        {label}
       </button>
       <span className={styles.status} role="status">
         {status === 'copied' ? 'Enlace copiado' : null}

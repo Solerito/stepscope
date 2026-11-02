@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react';
 import type { ViewSpec } from '@/core';
-import type { PlayerEngine } from '../../player/engine';
+import type { FrameSource } from '../../player/presenter';
 import { createSvgRenderer } from '../../scene/svg-renderer';
 import { keyOf } from '../../views/registry';
 import { usePlayerState } from '../usePlayer';
 import styles from './ViewPane.module.css';
 
 interface Props {
-  readonly engine: PlayerEngine;
+  readonly engine: FrameSource;
   readonly spec: ViewSpec;
   readonly title: string;
 }

@@ -1,0 +1,266 @@
+/* Dos platinas bajo el mismo instrumento: cada lado es una preparación, el reloj es uno. */
+.page {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100dvh;
+}
+
+.main {
+  display: grid;
+  grid-template:
+    'a b' minmax(0, 1fr)
+    'details details' auto / minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 1rem;
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 0.75rem 1rem;
+}
+
+.brand {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--hematoxylin);
+  text-decoration: none;
+}
+
+.brand:hover {
+  text-decoration: underline;
+}
+
+.titleBlock {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 1rem;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.summary {
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: baseline;
+  gap: 1.25rem;
+  margin-left: auto;
+}
+
+.linkButton {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--hematoxylin);
+  font-size: var(--text-sm);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.side[data-side='a'] {
+  grid-area: a;
+  margin-left: 1rem;
+}
+
+.side[data-side='b'] {
+  grid-area: b;
+  margin-right: 1rem;
+}
+
+.sideHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  padding-bottom: 0.4rem;
+}
+
+.picker {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+/* La letra es la que usan la tabla, la entrada y la escala del micrómetro: une las cuatro cosas. */
+.letter {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+.picker select {
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  background: var(--slide);
+  font-weight: 700;
+}
+
+.progress {
+  margin-left: auto;
+  color: var(--ink-soft);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress[data-finished='true'] {
+  color: var(--hematoxylin);
+  font-weight: 700;
+}
+
+.stage {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 9rem;
+  margin: 0;
+  border: 1px solid var(--ink);
+  background: var(--slide);
+}
+
+.explanation {
+  min-height: 3.6rem;
+}
+
+/* La explicación trae su propio margen lateral, pensado para el pie: aquí se alinea con la platina. */
+.explanation > * {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.message {
+  padding: 1.5rem;
+  color: var(--ink-soft);
+}
+
+.details {
+  grid-area: details;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem 2rem;
+  max-height: 38dvh;
+  overflow-y: auto;
+  padding: 0.75rem 1rem 1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.inputs {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+
+.sectionTitle {
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.variants {
+  margin: 0;
+  padding: 0.5rem 0 0;
+  border: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.variants legend {
+  padding: 0 0 0.35rem;
+  font-weight: 700;
+}
+
+/* Las variantes son cortas: en columnas no empujan la tabla fuera de la vista. */
+.variantFields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 0.75rem;
+}
+
+.notice {
+  padding: 0.5rem 1rem;
+  color: var(--eosin);
+  font-size: var(--text-sm);
+}
+
+.alone {
+  display: grid;
+  gap: 1rem;
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 3rem 1rem;
+}
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+/* En móvil se apilan: A, B, contadores y entrada, con el reproductor siempre a mano abajo. */
+@media (max-width: 56rem) {
+  .page,
+  .main {
+    display: block;
+    height: auto;
+  }
+
+  .header {
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .summary,
+  .actions {
+    display: none;
+  }
+
+  .side,
+  .side[data-side='a'],
+  .side[data-side='b'] {
+    margin: 0 1rem 0.75rem;
+  }
+
+  .stage {
+    flex: none;
+    height: 12rem;
+  }
+
+  .details {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    max-height: none;
+    overflow: visible;
+  }
+
+  .footer {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+  }
+}

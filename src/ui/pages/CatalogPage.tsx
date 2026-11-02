@@ -1,24 +1,13 @@
 import type { Category } from '@/core';
-import { algorithms } from '../../algorithms/registry';
+import { CATEGORY_NAMES, catalogOrder } from '../catalog';
 import styles from './CatalogPage.module.css';
-
-const CATEGORY_NAMES: Readonly<Record<Category, string>> = {
-  sorting: 'Ordenación',
-  searching: 'Búsqueda',
-  recursion: 'Recursión y backtracking',
-  graphs: 'Grafos',
-  dp: 'Programación dinámica',
-  strings: 'Cadenas',
-  structures: 'Estructuras de datos',
-};
+import { FEATURED_COMPARISONS } from './featured';
 
 export function CatalogPage({ notFound }: { readonly notFound?: string }) {
   const categories = (Object.keys(CATEGORY_NAMES) as Category[])
     .map((category) => ({
       category,
-      items: algorithms
-        .filter((algorithm) => algorithm.meta.category === category)
-        .sort((a, b) => a.meta.name.localeCompare(b.meta.name, 'es')),
+      items: catalogOrder.filter((algorithm) => algorithm.meta.category === category),
     }))
     .filter(({ items }) => items.length > 0);
 
@@ -55,6 +44,26 @@ export function CatalogPage({ notFound }: { readonly notFound?: string }) {
           </ul>
         </section>
       ))}
+
+      <section className={styles.category} aria-labelledby="category-compare">
+        <h2 id="category-compare" className={styles.categoryName}>
+          Comparar dos algoritmos
+        </h2>
+        <p className={styles.sectionLead}>
+          La misma entrada y un mismo reloj, que avanza por operaciones. También desde cualquier algoritmo,
+          con «Comparar con otro».
+        </p>
+        <ul className={styles.list}>
+          {FEATURED_COMPARISONS.map((comparison) => (
+            <li key={comparison.href}>
+              <a className={styles.item} href={comparison.href}>
+                <span className={styles.itemName}>{comparison.title}</span>
+                <span className={styles.itemSummary}>{comparison.summary}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   );
 }

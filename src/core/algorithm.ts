@@ -26,6 +26,11 @@ export interface InputField<T> {
   generators?: Readonly<Record<string, (random: () => number, current: T) => T>>;
   /** La entrada más grande permitida: con ella se comprueba que los límites declarados son ciertos. */
   maximal(): T;
+  /**
+   * Configura el algoritmo en vez de darle datos, como la regla del pivote o su semilla. En el modo
+   * comparación cada lado elige la suya; el resto de campos son la entrada común.
+   */
+  variant?: boolean;
 }
 
 export interface InputSpec<I> {

@@ -3,13 +3,14 @@ import { basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { COUNTER_NAMES, type InputField, runTrace, seededRandom, TraceCursor } from '@/core';
+import { COUNTER_NAMES, exportTrace, type InputField, runTrace, seededRandom, TraceCursor } from '@/core';
 import { arbitraryFor } from '../test/arbitraries';
 import {
   forbidNondeterminism,
   isSubsequence,
   linesOfTrace,
   recordHits,
+  replayExport,
   seekMatchesSequential,
   summarize,
 } from '../test/harness';
@@ -94,6 +95,23 @@ describe.each(algorithms)('$id', (algorithm) => {
         const json = JSON.stringify(cursor.seek(i).state);
         expect(JSON.stringify(JSON.parse(json))).toBe(json);
       }
+    }
+  });
+
+  it('su exportación a JSON reconstruye cada frame', () => {
+    for (const input of inputs) {
+      const trace = traceOf(input);
+      const exported = JSON.parse(JSON.stringify(exportTrace(trace)));
+      expect(exported.frames).toHaveLength(trace.header.frameCount);
+      const replayed = replayExport(exported);
+      const cursor = new TraceCursor(trace);
+      replayed.forEach((state, index) => {
+        const frame = cursor.seek(index);
+        expect(state, `frame ${index}`).toBe(JSON.stringify(frame.state));
+        expect(exported.frames[index].explain).toBe(frame.explain);
+        expect(exported.frames[index].counters).toEqual(frame.counters);
+        expect(exported.frames[index].anchor).toBe(frame.anchor);
+      });
     }
   });
 

@@ -1,39 +1,10 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { type ChoiceField, InputError, type InputField, type InputSpec } from '@/core';
+import { type ChoiceField, fieldsOf, InputError, type InputField } from '@/core';
 import type { RegisteredAlgorithm } from '../../algorithms/registry';
 import styles from './InputForm.module.css';
+import type { InputValue } from './params';
 
 const APPLY_DELAY_MS = 250;
-
-type InputValue = Record<string, unknown>;
-
-// biome-ignore lint/suspicious/noExplicitAny: el registro de algoritmos es heterogéneo
-const fieldsOf = (spec: InputSpec<any>) => Object.entries(spec.fields) as [string, InputField<unknown>][];
-
-/** La entrada que indica la URL. Lo que no se entienda se sustituye por su valor por defecto. */
-// biome-ignore lint/suspicious/noExplicitAny: el registro de algoritmos es heterogéneo
-export function inputFromParams(spec: InputSpec<any>, params: Readonly<Record<string, string>>): InputValue {
-  const input: InputValue = {};
-  for (const [name, field] of fieldsOf(spec)) {
-    const text = params[name];
-    input[name] = field.default;
-    if (text === undefined) continue;
-    try {
-      const parsed = field.parse(text);
-      if (field.validate(parsed) === null) input[name] = parsed;
-    } catch (error) {
-      if (!(error instanceof InputError)) throw error;
-    }
-  }
-  return input;
-}
-
-// biome-ignore lint/suspicious/noExplicitAny: el registro de algoritmos es heterogéneo
-export function paramsFromInput(spec: InputSpec<any>, input: InputValue): Record<string, string> {
-  const params: Record<string, string> = {};
-  for (const [name, field] of fieldsOf(spec)) params[name] = field.format(input[name]);
-  return params;
-}
 
 interface FieldEditorProps {
   readonly name: string;
@@ -42,7 +13,8 @@ interface FieldEditorProps {
   readonly onChange: (value: unknown) => void;
 }
 
-function FieldEditor({ name, field, value, onChange }: FieldEditorProps) {
+/** Un campo con su validación y sus generadores. El campo debe ser estable entre renders. */
+export function FieldEditor({ name, field, value, onChange }: FieldEditorProps) {
   const id = useId();
   const errorId = `${id}-error`;
   const [text, setText] = useState(() => field.format(value));

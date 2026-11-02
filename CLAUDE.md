@@ -14,6 +14,7 @@ npm run typecheck   # tsc -b con las tres configuraciones
 npm test            # Vitest: unitarios y batería universal
 npm run test:update # Regenera snapshots cuando una traza cambia a propósito
 npm run e2e         # Playwright en Chromium, WebKit y móvil, con axe
+npm run budget      # Tamaño del bundle inicial, tras `npm run build` (también en CI)
 ```
 
 ## Capas
@@ -54,3 +55,14 @@ La paleta sale de una preparación histológica: hematoxilina y eosina sobre cam
 - **Las vistas declaran dónde van:** `place: 'stage' | 'side'` y `weight` en el `ViewSpec`. La primera va siempre a la platina. En móvil la platina enseña solo la primera; el resto pasa a pestañas.
 - **La estabilidad se prueba con `0` y `-0`:** comparan igual pero `Object.is` los distingue. Los algoritmos con `meta.stable` pasan ese test solos; si el rango de su campo `values` no incluye el 0, el test fallará.
 - **Algoritmos con azar:** la semilla es un campo de entrada, y `reference` y `trace` consumen la misma secuencia de `seededRandom(seed)`. Con `Math.random`, el test de fidelidad compararía ejecuciones distintas.
+
+## Reglas añadidas en F4
+
+- **Pintar y decidir el frame van por separado.** `FramePresenter` (`player/presenter.ts`) pinta un frame y publica los paneles. `PlayerEngine` y `CompareEngine` solo deciden qué frame toca. Los paneles y `ViewPane` reciben un `FrameSource`, no un motor concreto.
+- **El reloj de la comparación cuenta operaciones:** comparaciones + escrituras + llamadas (`COST_COUNTERS`). Cada lado enseña el último frame cuyo coste no pasa del reloj. Los frames sin coste se ven de camino: es así a propósito.
+- **Datos frente a variantes.** Un campo con `variant: true` configura el algoritmo, y cada lado de la comparación elige el suyo. `choice` ya lo es. Una semilla también debe serlo: si no, dos lados con pivote aleatorio no podrían diferir.
+- **Dos algoritmos son comparables** si sus campos de datos tienen los mismos nombres y tipos (`sharedFields`). El campo común solo acepta lo que aceptan los dos. Un tipo de campo nuevo necesita su caso en `intersectFields`; sin él, esos algoritmos no se pueden comparar.
+- **URL de comparación:** `#/compare/<a>/<b>?<datos>&a.<variante>=…&b.<variante>=…&op=<coste>&fp=<fpA>,<fpB>`.
+- **Una comparación necesita dos workers.** Cada lado usa su propio `TraceChannel`; con uno solo, cada petición cancelaría la del otro lado.
+- **Los enlaces del README salen de `ui/pages/featured.ts`.** Un test exige que coincidan.
+- **Las tinciones deben distinguirse con daltonismo:** `ui/styles/palette.test.ts` simula los cuatro tipos sobre `tokens.css`. Si cambias un color y falla, el color nuevo no vale.

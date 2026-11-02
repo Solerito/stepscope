@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatAlgorithmHash, parseHash } from './hash';
+import { formatAlgorithmHash, formatCompareHash, parseHash } from './hash';
 
 describe('parseHash', () => {
   it('reconoce el catálogo con cualquier forma de hash vacío', () => {
@@ -35,5 +35,24 @@ describe('formatAlgorithmHash', () => {
 
   it('omite la interrogación sin parámetros', () => {
     expect(formatAlgorithmHash('a', {})).toBe('#/a');
+  });
+});
+
+describe('comparación', () => {
+  it('reconoce la pareja, una sola o ninguna', () => {
+    expect(parseHash('#/compare/quick-sort/merge-sort?values=3,1&op=4')).toEqual({
+      page: 'compare',
+      ids: ['quick-sort', 'merge-sort'],
+      params: { values: '3,1', op: '4' },
+    });
+    expect(parseHash('#/compare/quick-sort')).toEqual({ page: 'compare', ids: ['quick-sort'], params: {} });
+    expect(parseHash('#/compare')).toEqual({ page: 'compare', ids: [], params: {} });
+  });
+
+  it('hace ida y vuelta con las variantes de cada lado', () => {
+    const params = { values: '5,2,4', 'a.pivot': 'last', 'b.pivot': 'median3', fp: 'abc,def' };
+    const hash = formatCompareHash(['quick-sort', 'quick-sort'], params);
+    expect(hash).toBe('#/compare/quick-sort/quick-sort?values=5,2,4&a.pivot=last&b.pivot=median3&fp=abc,def');
+    expect(parseHash(hash)).toEqual({ page: 'compare', ids: ['quick-sort', 'quick-sort'], params });
   });
 });
