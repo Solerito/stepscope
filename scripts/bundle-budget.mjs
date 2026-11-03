@@ -9,7 +9,10 @@ const BUDGET_KB = 140;
 
 const dist = new URL('../dist/', import.meta.url);
 const html = readFileSync(new URL('index.html', dist), 'utf8');
-const assets = [...html.matchAll(/(?:src|href)="\/(assets\/[^"]+\.(?:js|css))"/g)].map((match) => match[1]);
+// `[^"/]+` y no `[^"]+`: así una ruta con `..` no puede salir de dist/ y hacer que este script
+// comprima un archivo cualquiera del disco. Hoy el HTML lo genera Vite desde este repositorio,
+// pero el patrón no tiene por qué confiar en eso.
+const assets = [...html.matchAll(/(?:src|href)="\/(assets\/[^"/]+\.(?:js|css))"/g)].map((match) => match[1]);
 
 if (assets.length === 0) {
   console.error('No hay JS ni CSS en dist/index.html: ¿falta `npm run build`?');

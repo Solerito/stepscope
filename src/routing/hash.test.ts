@@ -36,6 +36,14 @@ describe('formatAlgorithmHash', () => {
   it('omite la interrogación sin parámetros', () => {
     expect(formatAlgorithmHash('a', {})).toBe('#/a');
   });
+
+  it('hace ida y vuelta con un id que lleva caracteres de la propia URL', () => {
+    // Hoy todo id sale de un nombre de archivo, pero sin codificarlo esta función y
+    // `parseHash` no son inversas, igual que lo eran ya las del modo comparación.
+    const id = 'raro?%&#x';
+    const params = { values: '1,2' };
+    expect(parseHash(formatAlgorithmHash(id, params))).toEqual({ page: 'algorithm', id, params });
+  });
 });
 
 describe('comparación', () => {

@@ -14,14 +14,24 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      # Las acciones van fijadas al SHA, no a la etiqueta `v4`, que su autor puede mover.
+      # `persist-credentials: false` saca el GITHUB_TOKEN de .git/config: ningún paso de
+      # aquí abajo necesita autenticación de git, y es la única credencial que el código
+      # de un PR podría leer en el runner.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
+      # `--ignore-scripts`: hoy solo `fsevents` (opcional y de macOS) tiene script de
+      # instalación, así que no cuesta nada y deja sin sitio a los de una dependencia futura.
+      - run: npm ci --ignore-scripts
       - name: Lint y formato
-        run: npx biome ci .
+        # `npm run check` y no `npx biome`: npx con el binario local ausente resolvería y
+        # ejecutaría el paquete público llamado `biome`, que no es este.
+        run: npm run check
       - name: Tipos
         run: npm run typecheck
       - name: Tests
@@ -34,7 +44,7 @@ jobs:
         run: npx playwright install --with-deps chromium webkit
       - name: End to end
         run: npm run e2e
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         if: failure()
         with:
           name: playwright-report
