@@ -108,7 +108,8 @@ test.describe('comparación', () => {
   });
 
   test('un algoritmo sin compañero lo dice en vez de inventarse una comparación', async ({ page }) => {
-    await page.goto('/#/compare/fibonacci-memo');
+    // `binary-search-answer` es el único que queda sin pareja: su entrada son `weights` y `days`.
+    await page.goto('/#/compare/binary-search-answer');
     await expect(page.getByText('no tiene todavía con quién compararse')).toBeVisible();
   });
 

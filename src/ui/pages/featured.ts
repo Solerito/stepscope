@@ -34,6 +34,11 @@ export const FEATURED_COMPARISONS: readonly FeaturedCase[] = [
     href: formatCompareHash(['insertion-sort', 'shell-sort'], { values: descending }),
   },
   {
+    title: 'Fibonacci con memoización y sin ella',
+    summary: 'El mismo fib(10): 19 llamadas frente a 177, y el reloj cuenta llamadas.',
+    href: formatCompareHash(['fibonacci-memo', 'fibonacci'], { n: '10' }),
+  },
+  {
     title: 'Búsqueda lineal frente a binaria',
     summary: 'Sobre 30 valores ordenados: n pasos frente a log₂ n.',
     href: formatCompareHash(['linear-search', 'binary-search'], {

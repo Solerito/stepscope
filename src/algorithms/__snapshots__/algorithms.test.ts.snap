@@ -235,6 +235,38 @@ exports[`counting-sort > traza dorada: Todos iguales 1`] = `
 }
 `;
 
+exports[`fibonacci > traza dorada: fib(6) 1`] = `
+{
+  "counters": {
+    "calls": 25,
+    "comparisons": 25,
+    "reads": 0,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "9a0n8h",
+  "frames": 74,
+  "result": 8,
+}
+`;
+
+exports[`fibonacci > traza dorada: fib(10) 1`] = `
+{
+  "counters": {
+    "calls": 177,
+    "comparisons": 177,
+    "reads": 0,
+    "savedCalls": 0,
+    "swaps": 0,
+    "writes": 0,
+  },
+  "fingerprint": "rnemwt",
+  "frames": 530,
+  "result": 55,
+}
+`;
+
 exports[`fibonacci-memo > traza dorada: fib(6) 1`] = `
 {
   "counters": {
