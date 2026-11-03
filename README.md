@@ -11,6 +11,7 @@ Comparaciones, cada una con algo que no se ve mirando un solo algoritmo:
 - [Quicksort frente a mergesort](https://stepscope.vercel.app/#/compare/quick-sort/merge-sort?values=38,27,43,3,9,82,10,3,55,21,64,12): los dos son O(n log n), pero no hacen el mismo trabajo.
 - [El pivote de quicksort sobre un array ya ordenado](https://stepscope.vercel.app/#/compare/quick-sort/quick-sort?values=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16&a.pivot=last&b.pivot=median3): el último como pivote cae en el peor caso y la mediana de tres lo evita.
 - [Inserción frente a Shell sort, con el array al revés](https://stepscope.vercel.app/#/compare/insertion-sort/shell-sort?values=16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1): Shell sort mueve primero los elementos lejanos.
+- [Fibonacci con memoización y sin ella](https://stepscope.vercel.app/#/compare/fibonacci-memo/fibonacci?n=10): el mismo fib(10) con 19 llamadas y con 177, y el reloj de la comparación cuenta justo eso.
 - [Búsqueda lineal frente a binaria](https://stepscope.vercel.app/#/compare/linear-search/binary-search?values=1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59&target=53): n pasos frente a log₂ n.
 
 Algoritmos sueltos:

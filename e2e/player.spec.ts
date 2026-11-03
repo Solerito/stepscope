@@ -340,7 +340,7 @@ test.describe('fase 3: ordenación y búsqueda', () => {
       'counting-sort',
       'binary-search-answer',
     ]) {
-      await page.goto(`/#/${id}`);
+      await openHash(page, `/#/${id}`);
       await expect(position(page)).toHaveText(/^Paso 1 de/);
       const { violations } = await new AxeBuilder({ page }).analyze();
       expect(violations, id).toEqual([]);
@@ -366,16 +366,36 @@ test.describe('exportar', () => {
   });
 });
 
+/**
+ * Abre una ruta con hash forzando una carga real del documento. Navegar de `#/a` a `#/b` solo cambia el
+ * fragmento, así que no vuelve a montar el router: la aplicación depende de `hashchange`, que para una
+ * navegación dirigida WebKit no siempre entrega. Un usuario que pulsa un enlace sí lo dispara; un bucle
+ * de tests, no, y de ahí salían fallos intermitentes.
+ */
+async function openHash(page: Page, href: string) {
+  await page.goto(href);
+  await page.reload();
+}
+
+/**
+ * Recoge los enlaces del catálogo que casan con el selector. Espera a que haya al menos uno antes de
+ * leer el DOM: `evaluateAll` devuelve lo que haya en ese instante y no reintenta, así que sin la
+ * espera el test puede quedarse con una lista vacía si React aún no ha pintado.
+ */
+async function hrefsIn(page: Page, selector: string): Promise<string[]> {
+  await page.goto('/');
+  const links = page.locator(selector);
+  await expect(links.first()).toBeAttached();
+  return links.evaluateAll((all) => all.map((link) => link.getAttribute('href') ?? ''));
+}
+
 test.describe('auditoría de accesibilidad', () => {
   test('ningún algoritmo del catálogo tiene errores de axe', async ({ page }) => {
     test.slow();
-    await page.goto('/');
-    const ids = await page
-      .locator('main a[href^="#/"]:not([href^="#/compare"])')
-      .evaluateAll((links) => links.map((link) => link.getAttribute('href') ?? ''));
-    expect(ids.length).toBeGreaterThanOrEqual(13);
+    const ids = await hrefsIn(page, 'main a[href^="#/"]:not([href^="#/compare"])');
+    expect(ids.length).toBeGreaterThanOrEqual(14);
     for (const href of ids) {
-      await page.goto(`/${href}`);
+      await openHash(page, `/${href}`);
       await expect(position(page)).toHaveText(/^Paso 1 de/);
       const { violations } = await new AxeBuilder({ page }).analyze();
       expect(violations, href).toEqual([]);
@@ -384,13 +404,10 @@ test.describe('auditoría de accesibilidad', () => {
 
   test('las comparaciones preparadas tampoco', async ({ page }) => {
     test.slow();
-    await page.goto('/');
-    const hrefs = await page
-      .locator('main a[href^="#/compare"]')
-      .evaluateAll((links) => links.map((link) => link.getAttribute('href') ?? ''));
+    const hrefs = await hrefsIn(page, 'main a[href^="#/compare"]');
     expect(hrefs.length).toBeGreaterThan(0);
     for (const href of hrefs) {
-      await page.goto(`/${href}`);
+      await openHash(page, `/${href}`);
       await expect(position(page)).toHaveText(/^Operación 0 de/);
       const { violations } = await new AxeBuilder({ page }).analyze();
       expect(violations, href).toEqual([]);

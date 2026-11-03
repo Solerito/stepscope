@@ -1492,6 +1492,30 @@ Cuatro decisiones al construirla:
 
 ---
 
+### Un trozo de F2, adelantado (2026-11-03)
+
+`fibonacci` (sin memoización) llega antes que el resto de su fase porque no necesitaba nada de ella:
+ni `t.table`, ni vistas nuevas, ni el pintor Canvas. Es un archivo que reutiliza el `t.recursive` de
+F1 y las vistas `call-tree` y `call-stack`. Lo que cierra es un hueco del modo comparación: hasta
+ahora `fibonacci-memo` era el único algoritmo sin pareja y la página lo decía en voz alta.
+
+- **Tope n ≤ 12**, el que ya fijaba §1.9 para SVG. Medido: 1 394 frames, 930 primitivas como máximo
+  (por debajo de las 1 000 de la frontera) y 0,06 ms por escena. Por encima de n=10 el árbol se lee
+  solo en su mitad superior; se deja en 12 porque el límite técnico es real y el valor por defecto
+  es 6, así que ahí solo llega quien lo pide.
+- **Nada de código nuevo en el motor para compararlos:** `intersectInts` cruza `n: 0..12` con
+  `n: 0..40` y deja `0..12`, y el reloj de la comparación ya cuenta llamadas.
+- **Una comprobación de regalo:** con n=10, A dice «sin memoizar serían 177» y B hace exactamente
+  177 llamadas. El estimador genérico de `t.memoHit` queda contrastado en pantalla con la ejecución
+  de verdad.
+- **Dos tests habían fijado un hecho temporal**, no el contrato: que `fibonacci-memo` estaba solo.
+  El caso «sin pareja» pasa a `binary-search-answer`, el único que queda sin ella. La condición 1 de
+  F1 se sigue cumpliendo: el algoritmo es un archivo y no tocó ni el núcleo, ni las vistas, ni la
+  interfaz.
+- **Los `examples` se quedan pequeños a propósito:** el test universal de vistas barre cada frame de
+  cada ejemplo en dos viewports, así que fib(12) como ejemplo tumbaba su presupuesto de 5 s. El tope
+  lo cubre igualmente el test de límites, que usa `maximal()`.
+
 ### Ampliación opcional
 
 A partir de aquí nada está comprometido. Cada fase se decide por separado cuando la v1 esté publicada.
@@ -1552,16 +1576,16 @@ La primera ampliación: la familia de contenido prioritaria y la fase más cara.
 
 ### Cobertura del catálogo
 
-| Bloque | Piezas | En la v1 | Fase |
+| Bloque | Piezas | Construidas | Fase |
 |---|---:|---:|---|
 | Ordenación | 9 | 9 | F1 (inserción), F3 |
 | Búsqueda | 3 | 3 | F1 (lineal), F3 |
-| Recursión y backtracking | 8 | 0 | F2 (Fibonacci con memo, además, en F1) |
+| Recursión y backtracking | 8 | 1 | F2 (Fibonacci con memo, además, en F1; Fibonacci sin memo, adelantado) |
 | Grafos | 10 | 0 | F5 |
 | Programación dinámica | 5 | 0 | F6 |
 | Cadenas | 2 | 0 | F6 |
 | Estructuras de datos | 18 | 0 | F7 y F8 |
-| **Total** | **55** | **12** | 56 archivos en total y 13 en la v1, porque Fibonacci con memo va aparte |
+| **Total** | **55** | **13** | 56 archivos en total y 14 construidos, porque Fibonacci con memo va aparte |
 
 ---
 

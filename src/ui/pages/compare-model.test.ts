@@ -27,6 +27,9 @@ const counting = algorithm('counting-sort');
 const linear = algorithm('linear-search');
 const binary = algorithm('binary-search');
 const fib = algorithm('fibonacci-memo');
+const fibNoMemo = algorithm('fibonacci');
+// Su entrada son `weights` y `days`, que no tiene ningún otro algoritmo: es el único sin pareja.
+const answer = algorithm('binary-search-answer');
 
 describe('canCompare', () => {
   it('compara toda la ordenación entre sí, también con rangos distintos', () => {
@@ -66,9 +69,17 @@ describe('resolvePair', () => {
   });
 
   it('sin compañeros se queda solo, sin inventarse una comparación', () => {
-    expect(resolvePair(['fibonacci-memo'])).toEqual({ kind: 'alone', algorithm: fib });
-    expect(defaultPartner(fib)).toBeNull();
-    expect(partnersOf(fib)).toEqual([]);
+    expect(resolvePair(['binary-search-answer'])).toEqual({ kind: 'alone', algorithm: answer });
+    expect(defaultPartner(answer)).toBeNull();
+    expect(partnersOf(answer)).toEqual([]);
+  });
+
+  it('empareja los dos Fibonacci: el mismo campo `n`, con el rango del más estrecho', () => {
+    expect(canCompare(fib, fibNoMemo)).toBe(true);
+    expect(defaultPartner(fib)).toBe(fibNoMemo);
+    const shared = sharedFields(fib.input, fibNoMemo.input) as Record<string, InputField<number>>;
+    expect(shared.n?.validate(12)).toBeNull();
+    expect(shared.n?.validate(13)).not.toBeNull();
   });
 
   it('sin nada en el enlace, elige una pareja que se pueda comparar', () => {

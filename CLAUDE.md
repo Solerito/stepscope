@@ -63,6 +63,19 @@ La paleta sale de una preparación histológica: hematoxilina y eosina sobre cam
 - **La estabilidad se prueba con `0` y `-0`:** comparan igual pero `Object.is` los distingue. Los algoritmos con `meta.stable` pasan ese test solos; si el rango de su campo `values` no incluye el 0, el test fallará.
 - **Algoritmos con azar:** la semilla es un campo de entrada, y `reference` y `trace` consumen la misma secuencia de `seededRandom(seed)`. Con `Math.random`, el test de fidelidad compararía ejecuciones distintas.
 
+## Reglas de mantenimiento
+
+- **La CSP no abre `vercel.live`, a propósito.** Con `script-src 'self'` el widget de comentarios de
+  los deploy preview queda bloqueado. Producción no lo carga, así que el sitio publicado no pierde
+  nada, y abrirla solo para una comodidad del preview debilitaría la cabecera. `vercel.json` es JSON
+  estricto y no admite comentarios: por eso el motivo está aquí.
+- **Los `examples` de un algoritmo se quedan pequeños.** El test universal de vistas construye la
+  escena de cada frame de cada ejemplo en dos viewports; un ejemplo de miles de frames agota su
+  presupuesto de 5 s. La entrada máxima ya la cubre el test de límites con `maximal()`.
+- **Navegar entre dos hashes no vuelve a montar el router.** En los E2E, un bucle que va de `#/a` a
+  `#/b` depende de `hashchange`, que WebKit no siempre entrega en una navegación dirigida. Por eso
+  `openHash` recarga: un usuario que pulsa un enlace sí lo dispara, un test no.
+
 ## Reglas añadidas en F4
 
 - **Pintar y decidir el frame van por separado.** `FramePresenter` (`player/presenter.ts`) pinta un frame y publica los paneles. `PlayerEngine` y `CompareEngine` solo deciden qué frame toca. Los paneles y `ViewPane` reciben un `FrameSource`, no un motor concreto.

@@ -39,6 +39,14 @@ export default defineAlgorithm({
 
   reference: ({ values }) => shellSort([...values]),
 
+  // Con la secuencia de saltos de Shell no hay fórmula exacta: n^1,5 es la cota empírica que se le
+  // atribuye, y por eso la fórmula se muestra marcada como aproximada.
+  expected: {
+    metric: 'comparisons',
+    formula: '≈ n^1,5 con estos saltos',
+    at: ({ values }) => values.length ** 1.5,
+  },
+
   examples: [
     { name: 'Desordenado', input: { values: [23, 4, 42, 8, 16, 15, 1, 30] } },
     { name: 'Inverso', input: { values: [8, 7, 6, 5, 4, 3, 2, 1] } },
