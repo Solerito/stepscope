@@ -81,6 +81,14 @@ export function intArray(
     sorted,
 
     parse(text) {
+      // El tope de longitud se comprueba en `validate`, es decir, después de construir el
+      // array. Sin este corte previo, un enlace con un millón de valores se materializa
+      // entero antes de que nadie lo rechace. `maxLength + 1` deja que `validate` siga
+      // diciendo cuántos valores hay de más.
+      const widest = Math.max(`${min}`.length, `${max}`.length) + 1;
+      if (text.length > (maxLength + 1) * widest) {
+        throw new InputError(`Escribe como máximo ${maxLength} valores.`);
+      }
       const tokens = text.split(/[\s,;]+/).filter(Boolean);
       return tokens.map((token) => {
         const value = Number(token);

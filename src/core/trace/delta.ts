@@ -8,9 +8,27 @@ export function clone<T>(value: T): T {
   return copy as T;
 }
 
-/** Aplica una operación sobre `target`. Quien la llama debe pasar valores que `target` pueda poseer. */
+/** Claves que nunca son parte del estado de una traza: escribirlas tocaría el prototipo. */
+const FORBIDDEN_KEYS: readonly string[] = ['__proto__', 'constructor', 'prototype'];
+
+/** Más profundo que cualquier ruta que emita el tracer: `['structures', id, 'cells', i, 'value']`. */
+const MAX_PATH_DEPTH = 8;
+
+/**
+ * Aplica una operación sobre `target`. Quien la llama debe pasar valores que `target` pueda poseer.
+ *
+ * Hoy todas las rutas las construye el tracer con nombres propios e índices ya comprobados, así
+ * que estas dos guardas no rechazan nada real. Están porque el día que una traza entre desde
+ * fuera —importar un JSON exportado, por ejemplo— esta función pasaría a escribir rutas ajenas.
+ */
 export function applyOp(target: unknown, op: DeltaOp): void {
   const path = op[0];
+  if (path.length > MAX_PATH_DEPTH) throw new Error(`Ruta de delta demasiado profunda: ${path.length}`);
+  for (const segment of path) {
+    if (typeof segment === 'string' && FORBIDDEN_KEYS.includes(segment)) {
+      throw new Error(`«${segment}» no puede ser parte de una ruta de delta`);
+    }
+  }
   let node = target as Record<string | number, unknown>;
   for (let i = 0; i < path.length - 1; i++) {
     node = node[path[i] as string | number] as Record<string | number, unknown>;

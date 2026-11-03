@@ -4,6 +4,10 @@ const FNV_PRIME = 16777619;
 /**
  * FNV-1a sobre lo que define el comportamiento observable de una traza: la secuencia de anclas,
  * los contadores y el resultado. No toca los segmentos, así que no hace falta decodificarlos.
+ *
+ * Es un detector de cambios, no una credencial: 32 bits y sin clave. Vale para avisar de que un
+ * enlace viene de otra versión del algoritmo, y nada más debe depender de él. Si algún día algo
+ * autoriza, valida o decide a partir de este valor, hace falta otra función.
  */
 export function fingerprint(anchor: Uint16Array, counters: Uint32Array, result: unknown): string {
   let hash = FNV_OFFSET;

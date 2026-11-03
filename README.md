@@ -94,6 +94,8 @@ La ruta `#/bench` mide el rendimiento en el dispositivo en el que se abra.
 
 Stack: TypeScript 7, React 19 solo para los paneles, Vite 8, Zustand, Biome, Vitest, fast-check y Playwright. Se despliega en Vercel; GitHub Actions solo comprueba.
 
+El sitio publicado carga las dos medidas de Vercel: Web Analytics (visitas) y Speed Insights (métricas de carga). Las dos sirven su script desde el propio dominio, no desde un tercero, y no leen ni escriben cookies. La cabecera `Content-Security-Policy` de `vercel.json` no abre ningún dominio externo.
+
 ## Licencia
 
 [MIT](LICENSE)
