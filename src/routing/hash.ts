@@ -21,7 +21,10 @@ function decode(value: string): string | null {
 }
 
 function parseQuery(query: string): Params {
-  const params: Record<string, string> = {};
+  // Sin prototipo: las claves salen del enlace, así que `__proto__` o `constructor` no deben
+  // poder resolverse a nada heredado. Hoy nadie recorre estas claves y los valores son siempre
+  // cadenas, pero esto lo hace cierto por construcción y no por cómo se lea el objeto.
+  const params: Record<string, string> = Object.create(null);
   for (const pair of query.split('&')) {
     if (!pair) continue;
     const separator = pair.indexOf('=');
@@ -54,7 +57,9 @@ function formatQuery(params: Params): string {
 }
 
 export function formatAlgorithmHash(id: string, params: Params): string {
-  return `#/${id}${formatQuery(params)}`;
+  // `encode` igual que en `formatCompareHash`: hoy todo id sale de un nombre de archivo, pero
+  // sin esto `formatAlgorithmHash` y `parseHash` no son inversas para un id con `%`, `?` o `&`.
+  return `#/${encode(id)}${formatQuery(params)}`;
 }
 
 export function formatCompareHash(ids: readonly string[], params: Params): string {

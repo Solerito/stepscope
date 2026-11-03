@@ -32,6 +32,11 @@ describe.each(algorithms)('$id', (algorithm) => {
       const typed = field as InputField<unknown>;
       expect(typed.validate(algorithm.input.default[name])).toBeNull();
       expect(typed.parse(typed.format(typed.default))).toEqual(typed.default);
+      // Los casos preparados llegan al worker tal cual desde el desplegable de ejemplos, sin
+      // pasar por `validate`: si uno se sale de los límites de su propio campo, nadie lo ve.
+      for (const example of algorithm.examples ?? []) {
+        expect(typed.validate((example.input as Record<string, unknown>)[name])).toBeNull();
+      }
     }
   });
 

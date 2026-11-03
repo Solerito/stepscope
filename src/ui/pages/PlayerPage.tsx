@@ -38,6 +38,7 @@ function placeViews(views: readonly ViewSpec[], narrow: boolean) {
 export function PlayerPage({ algorithm, initialParams }: Props) {
   const [input, setInput] = useState(() => inputFromParams(algorithm.input, initialParams));
   const [source, setSource] = useState<ShownSource | null>(null);
+  const [sourceError, setSourceError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('code');
   const narrow = useMediaQuery(NARROW);
 
@@ -60,9 +61,16 @@ export function PlayerPage({ algorithm, initialParams }: Props) {
 
   useEffect(() => {
     let current = true;
-    void algorithm.loadSource().then((loaded) => {
-      if (current) setSource(loaded);
-    });
+    algorithm
+      .loadSource()
+      .then((loaded) => {
+        if (current) setSource(loaded);
+      })
+      // Sin esto, un archivo sin `//#region shown` deja el panel vacío y sin explicación. La
+      // batería universal ya caza ese caso en CI, así que esto es solo para que falle visible.
+      .catch((problem: unknown) => {
+        if (current) setSourceError(problem instanceof Error ? problem.message : String(problem));
+      });
     return () => {
       current = false;
     };
@@ -204,6 +212,11 @@ export function PlayerPage({ algorithm, initialParams }: Props) {
         <section {...panelProps('code')}>
           <h2 className={styles.panelTitle}>Código</h2>
           {source && engine ? <CodePanel engine={engine} source={source} /> : null}
+          {sourceError ? (
+            <p className={styles.message} role="alert">
+              No se ha podido leer el código de este algoritmo: {sourceError}
+            </p>
+          ) : null}
         </section>
 
         {engine

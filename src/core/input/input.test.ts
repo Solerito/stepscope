@@ -25,6 +25,18 @@ describe('intArray', () => {
     expect(values.parse(values.format([3, -1, 2]))).toEqual([3, -1, 2]);
   });
 
+  it('rechaza un texto enorme antes de construir el array', () => {
+    const huge = Array(10_000).fill('1').join(',');
+    expect(() => values.parse(huge)).toThrow(InputError);
+    expect(() => values.parse(huge)).toThrow('como máximo 5');
+  });
+
+  it('deja pasar un texto con el máximo de valores y uno más', () => {
+    // El corte está en `maxLength + 1` para que `validate` siga contando los que sobran.
+    expect(values.parse(values.format([9, -9, 9, -9, 9]))).toHaveLength(5);
+    expect(values.validate(values.parse('1,2,3,4,5,6'))).toContain('entre 2 y 5');
+  });
+
   it('sus generadores respetan los límites del campo', () => {
     const random = seededRandom(7);
     for (const generate of Object.values(values.generators ?? {})) {

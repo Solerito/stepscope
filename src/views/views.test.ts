@@ -10,7 +10,7 @@ import radixSort from '../algorithms/sorting/radix-sort.algo';
 import type { Scene, SceneBox, Viewport } from '../scene/types';
 import { barsView } from './bars.view';
 import { layoutTree } from './layout/tree-layout';
-import { viewFor } from './registry';
+import { duplicatedKinds, viewFor } from './registry';
 
 const DESKTOP: Viewport = { width: 800, height: 500 };
 const PHONE: Viewport = { width: 360, height: 220 };
@@ -203,5 +203,14 @@ describe('layoutTree', () => {
 
   it('acepta un árbol vacío', () => {
     expect(layoutTree([]).width).toBe(1);
+  });
+});
+
+describe('registro de vistas', () => {
+  it('cada tipo de vista lo declara un solo archivo', () => {
+    // El registro resuelve los duplicados quedándose con el último que carga el glob, sin
+    // avisar: un `*.view.ts` nuevo que declare «bars» cambiaría cómo se pintan nueve
+    // algoritmos y ningún otro test fallaría.
+    expect(duplicatedKinds).toEqual([]);
   });
 });
